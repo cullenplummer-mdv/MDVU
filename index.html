@@ -500,10 +500,10 @@
     background: var(--surface2);
     border: 1.5px solid var(--border);
     border-radius: 10px;
-    padding: 0.8rem 1rem;
+    padding: 1.05rem 1.2rem;
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s, background 0.25s;
     margin-bottom: 1rem;
@@ -559,7 +559,7 @@
   }
 
   .login-footer-note {
-    font-size: 11px;
+    font-size: 13.5px;
     color: var(--text-dim);
     text-align: center;
     margin-top: 1.25rem;
@@ -723,9 +723,12 @@
 
   document.getElementById('login-btn').addEventListener('click', attemptLogin);
   document.getElementById('login-pw').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') attemptLogin();
-    this.classList.remove('error');
-    document.getElementById('login-error').classList.remove('visible');
+    if (e.key === 'Enter') {
+      attemptLogin();
+    } else {
+      this.classList.remove('error');
+      document.getElementById('login-error').classList.remove('visible');
+    }
   });
 
   function toggleTheme() {
