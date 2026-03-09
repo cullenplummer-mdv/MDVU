@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyDoorView University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mdv-blue: #0096c7;
+    --mdv-blue-dark: #0077b6;
+    --mdv-blue-deeper: #005f92;
+    --mdv-cyan: #00b4d8;
+
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --surface2: #e8f1f8;
+    --surface3: #d4e8f4;
+    --border: #c8dff0;
+    --border2: #a8c8e0;
+    --accent: var(--mdv-blue);
+    --accent2: var(--mdv-cyan);
+    --accent-glow: rgba(0,150,199,0.10);
+    --text: #1a2a3a;
+    --text-muted: #4a6070;
+    --text-dim: #8aa0b0;
+  }
+
+  [data-theme="dark"] {
+    --bg: #06101c;
+    --surface: #0d1e2e;
+    --surface2: #132638;
+    --surface3: #1a3048;
+    --border: #1e3550;
+    --border2: #264260;
+    --accent: #00c2e0;
+    --accent2: #0096c7;
+    --accent-glow: rgba(0,194,224,0.12);
+    --text: #ddeaf5;
+    --text-muted: #8aafc8;
+    --text-dim: #5d7a90;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.25s, color 0.25s;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1.5px solid var(--border);
+    padding: 0 2rem;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,100,180,0.06);
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--mdv-blue-deeper), var(--mdv-cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    color: white;
+    letter-spacing: -0.3px;
+    flex-shrink: 0;
+  }
+
+  .logo-text-wrap { line-height: 1.15; }
+
+  .logo-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14.5px;
+    color: var(--text);
+    letter-spacing: 0.01em;
+    transition: color 0.25s;
+  }
+
+  .logo-sub {
+    font-size: 10.5px;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.25s;
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tagline {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    margin-right: 4px;
+    transition: color 0.25s;
+  }
+
+  .theme-toggle {
+    width: 34px;
+    height: 34px;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover { border-color: var(--mdv-blue); background: var(--accent-glow); }
+
+  main {
+    flex: 1;
+    max-width: 1080px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 3rem 2rem 4rem;
+  }
+
+  .hero { margin-bottom: 2.8rem; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    padding: 5px 12px 5px 9px;
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    background: var(--surface);
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: blink 2.2s ease infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.65); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    transition: color 0.25s;
+  }
+
+  .hero h1 .accent { color: var(--accent); }
+
+  .hero p {
+    font-size: 15.5px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--text-muted);
+    max-width: 540px;
+    transition: color 0.25s;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1.5px solid var(--border);
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.25rem;
+    transition: color 0.25s, border-color 0.25s;
+  }
+
+  .programs-section { margin-bottom: 2.8rem; }
+
+  .programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1rem;
+  }
+
+  .program-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem 1.5rem 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s, background 0.25s;
+  }
+
+  a.program-card:hover {
+    border-color: var(--mdv-blue);
+    box-shadow: 0 4px 20px var(--accent-glow);
+    transform: translateY(-2px);
+  }
+
+  .program-card.coming-soon {
+    opacity: 0.58;
+    cursor: default;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .card-icon.primary {
+    background: linear-gradient(135deg, rgba(0,95,146,0.12), rgba(0,180,216,0.07));
+    border-color: var(--border2);
+  }
+
+  .card-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1.5px solid;
+  }
+
+  .badge-live {
+    color: #2d9e5f;
+    border-color: rgba(45,158,95,0.3);
+    background: rgba(45,158,95,0.08);
+  }
+
+  [data-theme="dark"] .badge-live {
+    color: #4ec84e;
+    border-color: rgba(78,200,78,0.3);
+    background: rgba(78,200,78,0.09);
+  }
+
+  .badge-soon {
+    color: var(--text-dim);
+    border-color: var(--border);
+    background: var(--surface2);
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    line-height: 1.25;
+    transition: color 0.25s;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--text-muted);
+    flex: 1;
+    margin-bottom: 1.25rem;
+    transition: color 0.25s;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.85rem;
+    border-top: 1.5px solid var(--border);
+    transition: border-color 0.25s;
+  }
+
+  .card-meta {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    transition: color 0.25s;
+  }
+
+  .card-cta {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    letter-spacing: 0.02em;
+    transition: gap 0.2s, color 0.25s;
+  }
+
+  a.program-card:hover .card-cta { gap: 8px; }
+
+  .resources-section { margin-bottom: 0; }
+
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .resource-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: border-color 0.2s, background 0.2s, color 0.25s;
+  }
+
+  .resource-card:hover {
+    border-color: var(--mdv-blue);
+    background: var(--surface2);
+  }
+
+  .resource-icon { font-size: 17px; flex-shrink: 0; }
+
+  .resource-label {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  .resource-sub {
+    font-size: 11px;
+    color: var(--text-dim);
+    display: block;
+    margin-top: 1px;
+    transition: color 0.25s;
+  }
+
+  footer {
+    background: var(--surface);
+    border-top: 1.5px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+  }
+
+  footer .footer-right {
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 10.5px;
+  }
+</style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="#" class="logo-wrap">
+      <div class="logo-badge">MDV</div>
+      <div class="logo-text-wrap">
+        <div class="logo-name">MyDoorView</div>
+        <div class="logo-sub">University</div>
+      </div>
+    </a>
+    <div class="topbar-right">
+      <span class="tagline">Dealer Training &amp; Certification</span>
+      <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="hero">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Training Hub
+      </div>
+      <h1>Learn. <span class="accent">Certify.</span><br>Install with Confidence.</h1>
+      <p>MyDoorView University is your central hub for dealer training, technical certification, and product resources. Select a program below to get started.</p>
+    </div>
+
+    <div class="programs-section">
+      <div class="section-label">Training Programs</div>
+      <div class="programs-grid">
+
+        <a href="mcts.html" class="program-card">
+          <div class="card-top">
+            <div class="card-icon primary">🛠️</div>
+            <span class="card-badge badge-live">Live</span>
+          </div>
+          <div class="card-title">MyDoorView Certified<br>Technician Series</div>
+          <div class="card-desc">7-module technical certification covering hardware, system configuration, integrations, and troubleshooting for installer technicians.</div>
+          <div class="card-footer">
+            <span class="card-meta">7 Modules · 50-Question Final Exam</span>
+            <span class="card-cta">Begin →</span>
+          </div>
+        </a>
+
+        <div class="program-card coming-soon">
+          <div class="card-top">
+            <div class="card-icon">📈</div>
+            <span class="card-badge badge-soon">In Development</span>
+          </div>
+          <div class="card-title">Sales Enablement<br>Program</div>
+          <div class="card-desc">Product positioning, objection handling, and demo best practices for dealer sales teams.</div>
+          <div class="card-footer">
+            <span class="card-meta">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="program-card coming-soon">
+          <div class="card-top">
+            <div class="card-icon">🌐</div>
+            <span class="card-badge badge-soon">In Development</span>
+          </div>
+          <div class="card-title">Certificación Técnica<br>(Español)</div>
+          <div class="card-desc">Spanish-language version of the MCTS program for bilingual and Spanish-speaking technician teams.</div>
+          <div class="card-footer">
+            <span class="card-meta">Coming Soon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="resources-section">
+      <div class="section-label">Quick Resources</div>
+      <div class="resources-grid">
+        <a href="#" class="resource-card">
+          <span class="resource-icon">📄</span>
+          <span class="resource-label">Installation Guides<span class="resource-sub">Hardware documentation</span></span>
+        </a>
+        <a href="#" class="resource-card">
+          <span class="resource-icon">🔧</span>
+          <span class="resource-label">Troubleshooting Docs<span class="resource-sub">Field reference</span></span>
+        </a>
+        <a href="#" class="resource-card">
+          <span class="resource-icon">🎥</span>
+          <span class="resource-label">Video Walkthroughs<span class="resource-sub">Product demos</span></span>
+        </a>
+        <a href="#" class="resource-card">
+          <span class="resource-icon">🏢</span>
+          <span class="resource-label">Dealer Portal<span class="resource-sub">mydoorview.com</span></span>
+        </a>
+        <a href="#" class="resource-card">
+          <span class="resource-icon">📞</span>
+          <span class="resource-label">Support<span class="resource-sub">Contact MDV team</span></span>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <span>© 2025 MyDoorView · All rights reserved</span>
+    <span class="footer-right">MDV University · v1.0</span>
+  </footer>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeBtn');
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    btn.textContent = isDark ? '🌙' : '☀️';
+    localStorage.setItem('mdvu-theme', isDark ? 'light' : 'dark');
+  }
+
+  (function() {
+    const saved = localStorage.getItem('mdvu-theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.getElementById('themeBtn').textContent = '☀️';
+    }
+  })();
+</script>
+
+</body>
+</html>
