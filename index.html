@@ -412,9 +412,176 @@
     text-transform: uppercase;
     font-size: 10.5px;
   }
+
+  /* ── LOGIN GATE ── */
+  #login-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    transition: background 0.25s;
+  }
+
+  #login-gate.hidden {
+    display: none;
+  }
+
+  .login-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 2.75rem 2.5rem 2.25rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 40px rgba(0,119,182,0.10);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--mdv-blue-dark), var(--mdv-cyan));
+  }
+
+  .login-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--mdv-blue-deeper), var(--mdv-cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: white;
+    margin-bottom: 1.4rem;
+  }
+
+  .login-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+    transition: color 0.25s;
+  }
+
+  .login-sub {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-muted);
+    margin-bottom: 1.75rem;
+    line-height: 1.5;
+    transition: color 0.25s;
+  }
+
+  .login-label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.45rem;
+    transition: color 0.25s;
+  }
+
+  .login-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.25s;
+    margin-bottom: 1rem;
+  }
+
+  .login-input:focus {
+    border-color: var(--mdv-blue);
+    box-shadow: 0 0 0 3px rgba(0,119,182,0.12);
+  }
+
+  .login-input.error {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220,53,69,0.12);
+  }
+
+  .login-error {
+    font-size: 12px;
+    color: #dc3545;
+    margin-top: -0.6rem;
+    margin-bottom: 0.9rem;
+    display: none;
+  }
+
+  .login-error.visible {
+    display: block;
+  }
+
+  .login-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--mdv-blue-dark), var(--mdv-cyan));
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.88rem 1.5rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(0,119,182,0.28);
+    margin-top: 0.25rem;
+  }
+
+  .login-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,119,182,0.38);
+  }
+
+  .login-btn:active {
+    transform: translateY(0);
+  }
+
+  .login-footer-note {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 1.25rem;
+    transition: color 0.25s;
+  }
 </style>
 </head>
 <body>
+
+  <!-- ── LOGIN GATE ── -->
+  <div id="login-gate">
+    <div class="login-card">
+      <div class="login-badge">MDV</div>
+      <div class="login-title">Dealer Access</div>
+      <div class="login-sub">MyDoorView University is for authorized dealers only. Enter your access password to continue.</div>
+      <label class="login-label" for="login-pw">Access Password</label>
+      <input class="login-input" type="password" id="login-pw" placeholder="Enter password" autocomplete="current-password" />
+      <div class="login-error" id="login-error">Incorrect password. Contact your MDV representative.</div>
+      <button class="login-btn" id="login-btn">Access Hub →</button>
+      <div class="login-footer-note">Need access? Contact your MyDoorView representative.</div>
+    </div>
+  </div>
 
   <header class="topbar">
     <a href="#" class="logo-wrap">
@@ -519,6 +686,48 @@
   </footer>
 
 <script>
+  const GATE_PW = 'MDVDealer2026';
+  const SESSION_KEY = 'mdvu-auth';
+
+  (function() {
+    // Theme restore
+    const saved = localStorage.getItem('mdvu-theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.getElementById('themeBtn').textContent = '☀️';
+    }
+
+    // Check session
+    if (sessionStorage.getItem(SESSION_KEY) === '1') {
+      document.getElementById('login-gate').classList.add('hidden');
+      return;
+    }
+
+    // Focus password field
+    document.getElementById('login-pw').focus();
+  })();
+
+  function attemptLogin() {
+    const input = document.getElementById('login-pw');
+    const error = document.getElementById('login-error');
+    if (input.value === GATE_PW) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      document.getElementById('login-gate').classList.add('hidden');
+    } else {
+      input.classList.add('error');
+      error.classList.add('visible');
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  document.getElementById('login-btn').addEventListener('click', attemptLogin);
+  document.getElementById('login-pw').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') attemptLogin();
+    this.classList.remove('error');
+    document.getElementById('login-error').classList.remove('visible');
+  });
+
   function toggleTheme() {
     const html = document.documentElement;
     const btn = document.getElementById('themeBtn');
@@ -527,14 +736,6 @@
     btn.textContent = isDark ? '🌙' : '☀️';
     localStorage.setItem('mdvu-theme', isDark ? 'light' : 'dark');
   }
-
-  (function() {
-    const saved = localStorage.getItem('mdvu-theme');
-    if (saved === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      document.getElementById('themeBtn').textContent = '☀️';
-    }
-  })();
 </script>
 
 </body>
