@@ -1,3 +1,79 @@
+
+MyDoorView University - Technician Certification Program
+/
+IS there a way I could put a 3 or 5 second buffer between slides
+
+6:47 PM
+
+Searched project for “slide navigation auto-advance timer”
+Searched project for “slide navigation auto-advance timer”
+Yes, definitely doable. Here are the two most practical approaches depending on what behavior you want:
+
+Option A — Minimum time per slide (recommended for certification) The "Next" button is disabled for X seconds after arriving on a slide, then enables automatically. This ensures techs actually spend time on each slide rather than clicking through. A subtle countdown indicator can show the remaining time.
+
+Option B — Auto-advance after X seconds The slide advances automatically after X seconds. Less ideal for training since it removes learner control, but useful if you want to enforce pacing.
+
+My recommendation is Option A — it preserves the feel of learner-driven navigation while adding a light anti-skip guard. For a certification program that's the right balance.
+
+A few quick questions before I make the change:
+
+Waiting on your answers — once I have those I'll make the edit directly to the file and have it ready to download.
+
+Soeey what are the questions
+
+6:48 PM
+No worries! Three quick questions:
+
+What behavior do you want?
+A) Next button is disabled for a few seconds when you land on a slide (learner still clicks through, just can't skip instantly)
+B) Slide auto-advances on its own after the timer
+How long — 3 seconds or 5 seconds?
+Which file?
+The master slide deck (module_master_html.html)
+The certification portal (mcts.html)
+Both
+do you think 5 or 3 is better? Lets do A
+
+6:48 PM
+For a certification program, 3 seconds is the sweet spot. Five seconds gets annoying fast — especially on slides the tech has already seen or is reviewing. Three seconds is enough to prevent mindless clicking through without feeling punitive.
+
+So: Option A, 3-second delay on the Next button. Which file — the master slide deck, the portal, or both?
+
+
+mcts (1).html
+html
+
+Agreed. here is the file. It needs to be done on all slides across all modules
+
+6:49 PM
+
+Viewed 3 files, ran 2 commands
+Viewed 3 files, ran 2 commands
+Good — I can see both viewers clearly. I'll add the 3-second Next button lockout to both isv_showSlide (inline viewer) and sv_showSlide (fullscreen viewer), with a small countdown indicator on the button.
+
+
+Edited 3 files, ran 2 commands, read a file
+Edited 3 files, ran 2 commands, read a file
+Done. Here's what was added:
+
+Inline viewer (isvNext button) — locks for 3 seconds on every slide change, shows a live "Next (3s) →" countdown, then re-enables
+Fullscreen viewer (sv-btn-next button) — same behavior
+Both respect existing logic — the button stays disabled if you're already on the last slide, and the timer clears cleanly if you navigate back before it finishes
+Deploy this to Vercel as mcts.html and it's live.
+
+Mcts
+Code · HTML 
+
+
+
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+Mcts · HTML
+Copy
+
+Syntax highlighting has been disabled due to code size.
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5758,6 +5834,30 @@ function isv_loadModule(modIdx) {
   isv_showSlide(isv_start);
 }
 
+let isv_nextLockTimer = null;
+
+function isv_startNextLock() {
+  const next = document.getElementById('isvNext');
+  if (!next) return;
+  if (isv_currentIdx === isv_end) return; // already at last slide, leave disabled
+  next.disabled = true;
+  let remaining = 3;
+  next.dataset._origText = next.innerHTML;
+  next.innerHTML = `Next (${remaining}s) →`;
+  if (isv_nextLockTimer) clearInterval(isv_nextLockTimer);
+  isv_nextLockTimer = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(isv_nextLockTimer);
+      isv_nextLockTimer = null;
+      next.disabled = false;
+      next.innerHTML = next.dataset._origText || 'Next &#8594;';
+    } else {
+      next.innerHTML = `Next (${remaining}s) →`;
+    }
+  }, 1000);
+}
+
 function isv_showSlide(idx) {
   isv_currentIdx = idx;
   const slideId = SV_SLIDE_IDS[idx];
@@ -5776,6 +5876,7 @@ function isv_showSlide(idx) {
   isv_applyScale();
   requestAnimationFrame(isv_applyScale);
   isv_updateControls();
+  isv_startNextLock();
 }
 
 function isv_applyScale() {
@@ -6026,6 +6127,34 @@ function sv_applyScale() {
   });
 }
 
+let sv_nextLockTimer = null;
+
+function sv_startNextLock() {
+  const next = document.getElementById('sv-btn-next');
+  if (!next) return;
+  const hi = sv_currentModuleIdx >= 0 ? sv_moduleEnd : SV_SLIDE_IDS.length - 1;
+  if (sv_currentIdx === hi) return;
+  next.disabled = true;
+  let remaining = 3;
+  next.dataset._origText = next.innerHTML;
+  next.innerHTML = `Next (${remaining}s) →`;
+  if (sv_nextLockTimer) clearInterval(sv_nextLockTimer);
+  sv_nextLockTimer = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(sv_nextLockTimer);
+      sv_nextLockTimer = null;
+      const hi2 = sv_currentModuleIdx >= 0 ? sv_moduleEnd : SV_SLIDE_IDS.length - 1;
+      if (sv_currentIdx < hi2) {
+        next.disabled = false;
+        next.innerHTML = next.dataset._origText || 'Next →';
+      }
+    } else {
+      next.innerHTML = `Next (${remaining}s) →`;
+    }
+  }, 1000);
+}
+
 function sv_showSlide(idx) {
   const prevWrap = document.getElementById('sv-wrap-' + SV_SLIDE_IDS[sv_currentIdx]);
   if (prevWrap) prevWrap.classList.remove('sv-active');
@@ -6034,6 +6163,7 @@ function sv_showSlide(idx) {
   if (wrap) wrap.classList.add('sv-active');
   sv_updateUI(idx);
   sv_applyScale();
+  sv_startNextLock();
 }
 
 function sv_updateUI(idx) {
@@ -6153,3 +6283,8 @@ window.addEventListener('resize', sv_applyScale);
 </script>
 </body>
 </html>
+
+
+
+
+
