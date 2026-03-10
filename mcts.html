@@ -314,7 +314,8 @@ html,body{width:100%;min-height:100vh;}
   .quiz-gate .btn-primary { width: auto; padding: 0.8rem 2rem; margin-top: 0; }
 
   /* ── QUIZ ── */
-  #screen-quiz { padding: 78px 2rem 4rem; background: var(--bg); }
+  #screen-quiz { padding: 78px 2rem 5rem; background: var(--bg); }
+  .quiz-wrap { padding-top: 1.5rem; }
   .quiz-wrap { max-width: 860px; margin: 0 auto; }
   .quiz-top { margin-bottom: 1.75rem; }
   .quiz-label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mdv-blue); margin-bottom: 0.4rem; }
@@ -341,6 +342,7 @@ html,body{width:100%;min-height:100vh;}
   .opt.sel .opt-letter { background: var(--mdv-blue); border-color: var(--mdv-blue); color: #fff; }
   .opt.correct .opt-letter { background: var(--mdv-green); border-color: var(--mdv-green); color: #fff; }
   .opt.wrong .opt-letter { background: var(--danger); border-color: var(--danger); color: #fff; }
+  .opt.sel-exam { background: rgba(0,119,182,0.12); border-color: var(--accent); }
   .feedback { border-radius: 10px; padding: 0.9rem 1.1rem; font-size: 0.85rem; line-height: 1.6; margin-top: 1rem; display: none; }
   .feedback.show { display: block; }
   .feedback.ok { background: rgba(92,184,92,0.09); border: 1.5px solid rgba(92,184,92,0.35); color: var(--text); }
@@ -5894,15 +5896,19 @@ function _beginExam() {
   S.isExam=true; S.currentMod=null; S.questions=shuffle(CONTENT.finalExam.map(parseQ)); S.qIdx=0; S.answers=[];
   document.getElementById('quizLabel').textContent='\uD83C\uDFAF Final Certification Exam';
   document.getElementById('quizH').textContent='MCT Final Exam';
-  // Hide back button — exam is locked until results
+  // Hide back button and hub link — exam is locked until results
   const back = document.getElementById('btnBack');
   if (back) back.style.display = 'none';
+  const hubLink = document.querySelector('a.back-to-hub');
+  if (hubLink) hubLink.style.display = 'none';
   show('quiz'); renderQ();
 }
 
 function _restoreNav() {
   const back = document.getElementById('btnBack');
   if (back) back.style.display = '';
+  const hubLink = document.querySelector('a.back-to-hub');
+  if (hubLink) hubLink.style.display = '';
 }
 
 function renderQ() {
@@ -5917,9 +5923,16 @@ function renderQ() {
 function pick(idx) {
   const items=document.querySelectorAll('.opt'); if(items[0].classList.contains('disabled')) return;
   const q=S.questions[S.qIdx]; items.forEach(i=>i.classList.add('disabled')); items[idx].classList.add('sel');
-  const ok=idx===q.answer; items[idx].classList.add(ok?'correct':'wrong'); if(!ok) items[q.answer].classList.add('correct');
-  const fb=document.getElementById('fb'); fb.className=`feedback show ${ok?'ok':'no'}`;
-  fb.innerHTML=`${ok?'\u2705':'\u274C'} <strong>${ok?'Correct!':'Incorrect.'}</strong> ${q.explanation}`;
+  const ok=idx===q.answer;
+  if (S.isExam) {
+    // Exam mode: just mark selection, no right/wrong reveal
+    items[idx].classList.add('sel-exam');
+  } else {
+    // Module quiz: show immediate feedback
+    items[idx].classList.add(ok?'correct':'wrong'); if(!ok) items[q.answer].classList.add('correct');
+    const fb=document.getElementById('fb'); fb.className=`feedback show ${ok?'ok':'no'}`;
+    fb.innerHTML=`${ok?'\u2705':'\u274C'} <strong>${ok?'Correct!':'Incorrect.'}</strong> ${q.explanation}`;
+  }
   S.answers.push({correct:ok}); const btn=document.getElementById('btnNext'); btn.disabled=false; btn.style.opacity='1'; btn.style.cursor='pointer';
 }
 
