@@ -5655,9 +5655,14 @@ function startProgram() {
   if(!name||!email||!company){alert('Please enter your name, email, and dealer name to begin.');return;}
   S.name=name; S.email=email; S.company=company;
   if(!S.progress||S.progress.length!==CONTENT.modules.length) S.progress=new Array(CONTENT.modules.length).fill(null);
+  // Admin bypass: MyDoorView login unlocks all modules and exam
+  if(company.toLowerCase()==='mydoorview'){
+    S.progress=new Array(CONTENT.modules.length).fill('passed');
+    S.isAdmin=true;
+  }
   save();
   document.getElementById('topBar').style.display='flex';
-  document.getElementById('topUser').textContent=name;
+  document.getElementById('topUser').textContent=name+(S.isAdmin?' ⚙️':'');
   goModules();
 }
 
