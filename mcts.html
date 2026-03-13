@@ -93,7 +93,7 @@ html,body{width:100%;min-height:100vh;}
   }
   .top-user { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
   .back-to-hub {
-    display: none; align-items: center; gap: 5px;
+    display: inline-flex; align-items: center; gap: 5px;
     font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.06em; text-transform: uppercase;
     color: var(--text-muted); text-decoration: none;
@@ -5648,6 +5648,9 @@ function show(id) {
   if (id === 'lesson') setTimeout(isv_applyScale, 50);
   // Clear resources active state if navigating away
   if (id !== 'resources') { const rb=document.getElementById('resourcesBtn'); if(rb) rb.classList.remove('active'); }
+  // Back to Hub only appears on the modules dashboard — hide it everywhere else
+  const hubLink = document.querySelector('a.back-to-hub');
+  if (hubLink) hubLink.style.display = (id === 'modules') ? 'inline-flex' : 'none';
 }
 
 function startProgram() {
@@ -5668,11 +5671,7 @@ function startProgram() {
   goModules();
 }
 
-function goModules() {
-  show('modules'); renderDashboard(); updateProgress(); document.getElementById('resourcesBtn').classList.remove('active');
-  const hubLink = document.querySelector('a.back-to-hub');
-  if (hubLink) hubLink.style.display = 'inline-flex';
-}
+function goModules() { show('modules'); renderDashboard(); updateProgress(); document.getElementById('resourcesBtn').classList.remove('active'); }
 
 function goResources() { show('resources'); document.getElementById('resourcesBtn').classList.add('active'); }
 
@@ -5913,7 +5912,8 @@ function _beginExam() {
 function _restoreNav() {
   const back = document.getElementById('btnBack');
   if (back) back.style.display = '';
-  // back-to-hub intentionally not restored here — it only appears on the module dashboard via goModules()
+  const hubLink = document.querySelector('a.back-to-hub');
+  if (hubLink) hubLink.style.display = '';
 }
 
 function renderQ() {
