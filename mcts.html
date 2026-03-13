@@ -93,7 +93,7 @@ html,body{width:100%;min-height:100vh;}
   }
   .top-user { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
   .back-to-hub {
-    display: inline-flex; align-items: center; gap: 5px;
+    display: none; align-items: center; gap: 5px;
     font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.06em; text-transform: uppercase;
     color: var(--text-muted); text-decoration: none;
@@ -5668,7 +5668,11 @@ function startProgram() {
   goModules();
 }
 
-function goModules() { show('modules'); renderDashboard(); updateProgress(); document.getElementById('resourcesBtn').classList.remove('active'); }
+function goModules() {
+  show('modules'); renderDashboard(); updateProgress(); document.getElementById('resourcesBtn').classList.remove('active');
+  const hubLink = document.querySelector('a.back-to-hub');
+  if (hubLink) hubLink.style.display = 'inline-flex';
+}
 
 function goResources() { show('resources'); document.getElementById('resourcesBtn').classList.add('active'); }
 
@@ -5909,8 +5913,7 @@ function _beginExam() {
 function _restoreNav() {
   const back = document.getElementById('btnBack');
   if (back) back.style.display = '';
-  const hubLink = document.querySelector('a.back-to-hub');
-  if (hubLink) hubLink.style.display = '';
+  // back-to-hub intentionally not restored here — it only appears on the module dashboard via goModules()
 }
 
 function renderQ() {
@@ -6081,6 +6084,8 @@ function sv_startNextLock() {
   if (!next) return;
   const hi = sv_currentModuleIdx >= 0 ? sv_moduleEnd : SV_SLIDE_IDS.length - 1;
   if (sv_currentIdx === hi) return;
+  // Admin bypass: skip slide delay entirely
+  if (S.isAdmin) { next.disabled = false; return; }
   next.disabled = true;
   let remaining = 3;
   next.dataset._origText = next.innerHTML;
