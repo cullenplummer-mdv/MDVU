@@ -1050,18 +1050,19 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
 
   /* SLIDE 5 - HARDWARE - with real images */
   #m1-slide-5 { flex-direction: column; }
-  .hardware-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; flex: 1; padding-bottom: 20px; }
+  #m1-slide-5 .slide-inner { padding: 40px 48px 0; gap: 14px; }
+  .hardware-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; flex: 1; padding-bottom: 16px; }
   .hw-card { background: #f4f8fb; border: 1.5px solid #cbd5e1; border-radius: 14px; display: flex; flex-direction: column; overflow: hidden; }
-  .hw-card-image { height: 220px; display: flex; align-items: center; justify-content: center; background: transparent; position: relative; overflow: hidden; }
-  .hw-card-image img { max-height: 200px; max-width: 85%; object-fit: contain; }
+  .hw-card-image { height: 160px; display: flex; align-items: center; justify-content: center; background: transparent; position: relative; overflow: hidden; }
+  .hw-card-image img { max-height: 140px; max-width: 85%; object-fit: contain; }
   .hw-card-image::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #0077b6, #00b4d8); }
-  .hw-card-/* body rule removed - scoped to standalone slides only */
-  .hw-badge { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #005f92, #0096c7); color: white; border-radius: 8px; padding: 6px 14px; font-size: 14px; font-weight: 700; letter-spacing: 0.04em; align-self: flex-start; }
-  .hw-title { font-size: 20px; font-weight: 700; color: #0f1c2e; }
+  .hw-card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+  .hw-badge { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #005f92, #0096c7); color: white; border-radius: 8px; padding: 5px 12px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; align-self: flex-start; }
+  .hw-title { font-size: 18px; font-weight: 700; color: #0f1c2e; }
   .hw-subtitle { font-size: 13px; color: #0077b6; font-weight: 600; }
-  .hw-desc { font-size: 13px; color: #334155; line-height: 1.6; flex: 1; }
-  .hw-specs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-  .hw-spec { background: #e0f4fd; border: 1px solid #7ec8e3; border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 600; color: #005885; }
+  .hw-desc { font-size: 13px; color: #334155; line-height: 1.55; flex: 1; }
+  .hw-specs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .hw-spec { background: #e0f4fd; border: 1px solid #7ec8e3; border-radius: 6px; padding: 3px 9px; font-size: 11px; font-weight: 600; color: #005885; }
 
   /* SLIDE 6 - FEATURES */
   #m1-slide-6 { flex-direction: row; }
@@ -2176,6 +2177,7 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
   #isv-m1-slide-3 { flex-direction: column; }
   #isv-m1-slide-4 { flex-direction: column; }
   #isv-m1-slide-5 { flex-direction: column; }
+  #isv-m1-slide-5 .slide-inner { padding: 40px 48px 0; gap: 14px; }
   #isv-m1-slide-6 { flex-direction: row; }
   #isv-m1-slide-6 .left-col { width: 42%; padding: 52px 36px 52px 56px; display: flex; flex-direction: column; justify-content: center; padding-bottom: calc(44px + 8px); }
   #isv-m1-slide-6 .left-col h2 { font-family: "DM Serif Display", serif; font-size: 38px; color: #0a1628; font-weight: 400; margin-bottom: 16px; }
@@ -5648,7 +5650,7 @@ function show(id) {
   if (id === 'lesson') setTimeout(isv_applyScale, 50);
   // Clear resources active state if navigating away
   if (id !== 'resources') { const rb=document.getElementById('resourcesBtn'); if(rb) rb.classList.remove('active'); }
-  // Back to Hub only appears on the modules dashboard — hide it everywhere else
+  // Back to Hub only appears on the modules dashboard
   const hubLink = document.querySelector('a.back-to-hub');
   if (hubLink) hubLink.style.display = (id === 'modules') ? 'inline-flex' : 'none';
 }
