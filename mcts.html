@@ -5774,6 +5774,8 @@ function isv_startNextLock() {
   const next = document.getElementById('isvNext');
   if (!next) return;
   if (isv_currentIdx === isv_end) return; // already at last slide, leave disabled
+  // Admin bypass: skip slide delay entirely
+  if (S.isAdmin) { next.disabled = false; return; }
   next.disabled = true;
   let remaining = 3;
   next.dataset._origText = next.innerHTML;
