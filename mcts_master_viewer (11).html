@@ -1141,8 +1141,8 @@ body{font-family:'Inter',sans-serif;background:#1a2535;display:flex;flex-directi
     <button class="mod-btn" data-mod="2" onclick="jumpToModule(2)">M2 · Apps</button>
     <button class="mod-btn" data-mod="3" onclick="jumpToModule(3)">M3 · Hardware</button>
     <button class="mod-btn" data-mod="4" onclick="jumpToModule(4)">M4 · Config</button>
-    <button class="mod-btn" data-mod="5" onclick="jumpToModule(5)">M5 · Support</button>
-    <button class="mod-btn" data-mod="6" onclick="jumpToModule(6)">M6 · Sales</button>
+    <button class="mod-btn" data-mod="5" onclick="jumpToModule(5)">M5 · Integrations</button>
+    <button class="mod-btn" data-mod="6" onclick="jumpToModule(6)">M6 · Troubleshooting</button>
   </div>
   <span id="topbar-count">1 / 60</span>
 </div>
@@ -1150,12 +1150,12 @@ body{font-family:'Inter',sans-serif;background:#1a2535;display:flex;flex-directi
 <div id="stage"></div>
 <div id="bottombar">
   <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>← Prev</button>
-  <span class="slide-counter" id="slide-counter">Slide 1 of 60</span>
+  <span class="slide-counter" id="slide-counter">Slide 1 of 62</span>
   <button class="nav-btn" id="btn-next" onclick="navigate(1)">Next →</button>
 </div>
 
 <script>
-const MODULES = [{"id": "M0", "title": "Program Overview", "startIdx": 0, "count": 6}, {"id": "M1", "title": "Introduction to MyDoorView", "startIdx": 6, "count": 9}, {"id": "M2", "title": "Mastering Apps & Interfaces", "startIdx": 15, "count": 12}, {"id": "M3", "title": "Hardware & Installation", "startIdx": 27, "count": 11}, {"id": "M4", "title": "Configuration & Commissioning", "startIdx": 38, "count": 10}, {"id": "M5", "title": "Troubleshooting & Support", "startIdx": 48, "count": 8}, {"id": "M6", "title": "Sales & Business Development", "startIdx": 56, "count": 6}];
+const MODULES = [{"id": "M0", "title": "Program Overview", "startIdx": 0, "count": 6}, {"id": "M1", "title": "Introduction to MyDoorView", "startIdx": 6, "count": 9}, {"id": "M2", "title": "Mastering Apps & Interfaces", "startIdx": 15, "count": 12}, {"id": "M3", "title": "Hardware & Installation", "startIdx": 27, "count": 11}, {"id": "M4", "title": "Configuration & Commissioning", "startIdx": 38, "count": 10}, {"id": "M5", "title": "Integration Architecture", "startIdx": 48, "count": 8}, {"id": "M6", "title": "Troubleshooting & OBF", "startIdx": 56, "count": 6}];
 const SLIDES = [
 `<div class="slide" style="flex-direction:row;">
   <div class="ab"></div>
