@@ -3108,7 +3108,7 @@ function loadContent() {
   CONTENT = JSON.parse(JSON.stringify(BAKED_CONTENT));
   if(!S.progress||S.progress.length!==CONTENT.modules.length) S.progress=new Array(CONTENT.modules.length).fill(null);
   document.getElementById('landingStats').innerHTML=`
-    <div class="stat"><strong>${CONTENT.modules.length}</strong> Modules</div>
+    <div class="stat"><strong>${CONTENT.modules.length-1}</strong> Modules</div>
     <div class="stat"><strong>80%</strong> To Pass</div>
     <div class="stat"><strong>Self-Paced</strong> Format</div>
     <div class="stat"><strong>MCTS</strong> Certificate</div>`;
@@ -3235,7 +3235,7 @@ function renderDashboard() {
     examBtn.textContent='Start Final Exam'; examBtn.disabled=false; examBtn.style.opacity='1'; examBtn.style.cursor='pointer'; examBtn.onclick=startExam;
   } else {
     const rem=S.progress.filter(p=>p!=='passed').length;
-    examSub.textContent=`Complete all ${CONTENT.modules.length} modules to unlock the Final Exam. (${rem} remaining)`;
+    examSub.textContent=`Complete all ${CONTENT.modules.length-1} modules to unlock the Final Exam. (${rem} remaining)`;
     examBtn.disabled=true; examBtn.style.opacity='0.35'; examBtn.style.cursor='not-allowed';
   }
 }
