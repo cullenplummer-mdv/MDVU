@@ -3222,6 +3222,11 @@ const SLIDES = [
 <div class="cfg-item"><div class="ci-icon">&#128260;</div><div><div class="ci-title">Refresh Rate</div><div class="ci-desc">How often the device pulls updated data from the cloud. Affects how quickly new residents and revoked credentials appear at the panel.</div></div></div>
 <div class="cfg-item"><div class="ci-icon">&#127912;</div><div><div class="ci-title">Branding: Logo, Displayed Phone Number</div><div class="ci-desc">The displayed number shows on the panel face &mdash; usually the leasing office. Upload the property logo for a polished look.</div></div></div>
 </div>
+<div class="cfg-section"><div class="cfg-section-label">Device-Level Panel Toggles</div>
+<div class="cfg-item"><div class="ci-icon">&#128205;</div><div><div class="ci-title">Directory Button — Show or Hide the Resident List</div><div class="ci-desc">When disabled, visitors cannot browse the resident directory on the panel touchscreen. Useful for properties that want all calls routed through the office button instead.</div></div></div>
+<div class="cfg-item hi"><div class="ci-icon">&#128072;</div><div><div class="ci-title">Tap to Unlock — Proactive App Unlock Button</div><div class="ci-desc">Controls whether the Resident App home screen shows a persistent one-tap unlock button. When enabled, residents can unlock without an incoming call. When disabled, residents can only unlock in response to a panel call &mdash; preferred for security-conscious properties.</div></div></div>
+<div class="cfg-item"><div class="ci-icon">&#128222;</div><div><div class="ci-title">Office Button — Direct Call to Front Desk</div><div class="ci-desc">When enabled, visitors can call the property office directly from the panel. Useful for buildings with front desk or concierge staff.</div></div></div>
+</div>
 </div>
 </div></div></div>
 <div style="display:flex;justify-content:center;position:absolute;bottom:52px;left:0;right:0;">
@@ -3268,11 +3273,11 @@ const SLIDES = [
 <div class="user-col"><div class="user-col-label">Access Credentials</div>
 <div class="user-field opt"><span class="uf-badge ub-opt">Optional</span><div class="uf-icon">&#129535;</div><div class="uf-name">Card / Credential Number + Format</div><div class="uf-desc">Enter the card number and select the correct Wiegand format. Mismatched format = credential will not read even if the number is right.</div></div>
 <div class="user-field opt"><span class="uf-badge ub-opt">Optional</span><div class="uf-icon">&#128290;</div><div class="uf-name">Door PIN</div><div class="uf-desc">Unique keypad code for this resident. PIN Buttons toggle must be enabled at the device level before PINs will work at the panel.</div></div>
+<div class="user-field" style="opacity:0.6;border-style:dashed;"><div class="uf-icon">&#129521;</div><div class="uf-name">Facial Recognition <span style="display:inline-block;background:#e0f4fd;border:1px solid #7ec8e3;border-radius:20px;padding:2px 10px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#0077b6;margin-left:6px;">Coming Soon</span></div><div class="uf-desc">Biometric credential support is in development. No configuration required at this time.</div></div>
 </div>
 <div class="user-col"><div class="user-col-label">Scheduling</div>
 <div class="user-field"><div class="uf-icon">&#128197;</div><div class="uf-name">Start Date &amp; Time</div><div class="uf-desc">Set to move-in day &mdash; credential is in the system but will not activate until the date arrives. No last-minute rush to add them.</div></div>
 <div class="user-field"><div class="uf-icon">&#128197;</div><div class="uf-name">End Date &amp; Time</div><div class="uf-desc">Optional. Set for lease end dates or temp access. Credential automatically expires &mdash; no manual removal needed.</div></div>
-<div class="pro-tip" style="margin-top:6px"><span class="tip-icon">&#128161;</span><div><strong>Bulk import:</strong> For 20+ residents, use the CSV import in the Admin Web Portal. Template is in the portal &mdash; fill it out, upload once, done.</div></div>
 </div>
 </div></div>
 <div class="bottom-bar"><span>MyDoorView &middot; MCTS Certification Program</span><span>Module 04 &middot; System Configuration &amp; Setup</span></div>
