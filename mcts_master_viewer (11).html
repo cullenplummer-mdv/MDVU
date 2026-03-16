@@ -2920,7 +2920,7 @@ const SLIDES = [
         <div class="port-badge">B<br>Ports</div>
         <div class="port-body">
           <div class="port-title">Relay Outputs</div>
-          <div class="port-desc">Relay pulse duration: 1–99 seconds (configured in portal)<br>Supports NO and NC configurations<br><strong>Always wire Relay 2 as a local backup</strong> — provides failover if internet is lost</div>
+          <div class="port-desc">Relay pulse duration: 1–99 seconds (configured in portal)<br>Supports NO and NC configurations<br><strong>Relay 2</strong> — used for offline failover on integration jobs, or to control a second access point. May be unused on single-door standalone installs.</div>
           <div class="port-tags"><span class="port-tag">NO/NC</span><span class="port-tag">1–99 sec</span><span class="port-tag">Failover via R2</span></div>
         </div>
       </div>
@@ -3209,7 +3209,7 @@ const SLIDES = [
 <div class="cfg-item hi"><div class="ci-icon">&#128256;</div><div><div class="ci-title">Relay State: Normally Open (NO) vs Normally Closed (NC)</div><div class="ci-desc">NO = door locked at rest, opens when triggered. NC = door open at rest, closes when triggered. Most residential entries use NO. Confirm which lock type is wired before setting.</div></div></div>
 <div class="cfg-item"><div class="ci-icon">&#9201;&#65039;</div><div><div class="ci-title">Unlock Duration: 0&ndash;99 Seconds</div><div class="ci-desc">How long the relay holds open. Lobby doors: 3&ndash;5 sec. Vehicle gates: 10&ndash;15 sec. Ask the property manager what feels natural &mdash; do not just default to 5.</div></div></div>
 <div class="cfg-item"><div class="ci-icon">&#127991;&#65039;</div><div><div class="ci-title">Relay Name (e.g., "Main Entrance")</div><div class="ci-desc">Appears in event logs and audit trails. Use the physical description of the door &mdash; invaluable when reviewing access incidents.</div></div></div>
-<div class="cfg-item wn"><div class="ci-icon">&#128290;</div><div><div class="ci-title">Relay 2 &mdash; Always Wire as Local Backup</div><div class="ci-desc">Cloud systems fire Relay 1 via API. If internet goes down, Relay 2 wired directly to the lock means residents can still get in. Do this on every install.</div></div></div>
+<div class="cfg-item wn"><div class="ci-icon">&#128290;</div><div><div class="ci-title">Relay 2 &mdash; Know When to Use It</div><div class="ci-desc">Relay 2 has two common uses: offline failover on integration jobs (wire it directly to the lock so residents can still get in if the internet drops), and second access point control when a site has multiple entries. Single-door standalone installs may leave Relay 2 unused.</div></div></div>
 </div>
 <div class="cfg-section"><div class="cfg-section-label">UX &amp; Cloud Settings</div>
 <div class="cfg-item hi"><div class="ci-icon">&#128274;</div><div><div class="ci-title">Unlocking Mode &rarr; Set to "MyDoorView"</div><div class="ci-desc">Must be set to MyDoorView for cloud-based unlock control. Any other setting disables app-based unlocking entirely.</div></div></div>
@@ -3334,7 +3334,7 @@ const SLIDES = [
 <div class="sum-label">What You've Learned</div>
 <div class="sum-tk"><div class="sum-tk-num">01</div><div class="sum-tk-text"><strong>Hierarchy: Account &rarr; Site &rarr; Device &rarr; User</strong><p>Each layer must exist before the next can be created. Pre-program everything remotely &mdash; the License Key syncs it all when you plug in on-site.</p></div></div>
 <div class="sum-tk"><div class="sum-tk-num">02</div><div class="sum-tk-text"><strong>Two Settings That Break Things: Timezone + Relay State</strong><p>Wrong timezone = credential schedules fire at wrong times. Wrong relay state (NO vs NC) = door behaves opposite of intent. Verify both before saving.</p></div></div>
-<div class="sum-tk"><div class="sum-tk-num">03</div><div class="sum-tk-text"><strong>Always Wire Relay 2 as Local Backup</strong><p>Integrated systems fire Relay 1 via cloud API. Relay 2 wired directly to the lock means residents can get in even if the internet goes down.</p></div></div>
+<div class="sum-tk"><div class="sum-tk-num">03</div><div class="sum-tk-text"><strong>Relay 2 — Know When to Use It</strong><p>Relay 2 serves two purposes: offline failover on integration jobs, and second access point control on multi-entry sites. On a single-door standalone install with no integration, it may simply go unused.</p></div></div>
 <div class="sum-tk"><div class="sum-tk-num">04</div><div class="sum-tk-text"><strong>Do Not Leave Without: Online Status + Live Call Test</strong><p>Serial bonded &rarr; ping confirmed &rarr; device Online &rarr; one live video call. That checklist proves the full chain works before you drive away.</p></div></div>
 </div>
 <div class="bottom-bar"><span>MyDoorView &middot; MCTS Certification Program</span><span>Module 04 &middot; System Configuration &amp; Setup</span></div>
@@ -3494,7 +3494,7 @@ const SLIDES = [
         <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;"><span style="font-size:16px;">✅</span><span style="font-size:13px;">Enter keys in Dealer Admin View</span></div>
         <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;"><span style="font-size:16px;">✅</span><span style="font-size:13px;">Map each MDV device to ACS door</span></div>
         <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;"><span style="font-size:16px;">✅</span><span style="font-size:13px;">Test sync with a sample credential</span></div>
-        <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;"><span style="font-size:16px;">✅</span><span style="font-size:13px;">Wire Relay 2 as local failover backup</span></div>
+        <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;"><span style="font-size:16px;">✅</span><span style="font-size:13px;">Wire Relay 2 to the lock for failover (required on integration jobs)</span></div>
       </div>
       <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
         <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 16px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;">PDK</span>
@@ -3592,7 +3592,7 @@ const SLIDES = [
         <div style="background:#fff0f0;border:1px solid #fca5a5;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;color:#c92a2a;width:fit-content;">B4–B6 · Normally Open · Local Failover</div>
       </div>
     </div>
-    <div class="ptip" style="border-left-color:#e03131;background:#fff0f0;border-color:#fca5a5;margin-top:6px;padding:9px 13px;"><span style="font-size:12px;flex-shrink:0;">⚠️</span><div style="color:#78350f;font-size:12px;"><strong>Always wire Relay 2 on every integration job.</strong> Cloud systems (Brivo/PDK) trigger the door via API. If the internet drops, that path goes down. Relay 2 wired directly to the lock is the only guarantee residents can still get in.</div></div>
+    <div class="ptip" style="border-left-color:#e03131;background:#fff0f0;border-color:#fca5a5;margin-top:6px;padding:9px 13px;"><span style="font-size:12px;flex-shrink:0;">⚠️</span><div style="color:#78350f;font-size:12px;"><strong>Relay 2 on integration jobs is non-negotiable.</strong> Cloud systems (Brivo/PDK) trigger the door via API — if the internet drops, that path goes down. Relay 2 wired directly to the lock is the only thing that keeps residents moving. On standalone jobs, wire it when there's a second access point to control. Single-door standalone installs may leave it unused.</div></div>
   </div>
   <div class="bb"><span>MyDoorView · MCTS Certification Program</span><span>Module 05 · Integration Architecture</span></div>
 </div>`,
@@ -3661,7 +3661,7 @@ const SLIDES = [
     </div>
     <div style="display:flex;align-items:flex-start;gap:16px;padding:13px 0;border-bottom:1px solid #f0f4f8;">
       <div style="font-size:22px;font-weight:800;color:#e2e8f0;line-height:1;flex-shrink:0;min-width:32px;">03</div>
-      <div><strong style="font-size:14px;font-weight:700;color:#0f1c2e;display:block;margin-bottom:3px;">Relay 2 is Non-Negotiable</strong><p style="font-size:13px;color:#475569;line-height:1.5;">On every integrated job, wire Relay 2 directly to the lock as a local failover. If the internet drops, the cloud API goes with it — Relay 2 is the only thing that keeps residents moving.</p></div>
+      <div><strong style="font-size:14px;font-weight:700;color:#0f1c2e;display:block;margin-bottom:3px;">Relay 2 — Know When to Use It</strong><p style="font-size:13px;color:#475569;line-height:1.5;">On integration jobs, wiring Relay 2 directly to the lock is non-negotiable — it's the only guarantee residents can get in if the internet or cloud API goes down. On standalone jobs with multiple entry points, it controls the second access point. A single-door standalone install with no integration may simply leave Relay 2 unused.</p></div>
     </div>
     <div style="display:flex;align-items:flex-start;gap:16px;padding:13px 0;">
       <div style="font-size:22px;font-weight:800;color:#e2e8f0;line-height:1;flex-shrink:0;min-width:32px;">04</div>
