@@ -3105,6 +3105,26 @@ async function logCompletion(certId) {
   // Final exam result already sent in showResults() — nothing extra needed here
 }
 
+// ── fireLoginEvent: fires on portal login (non-admin only) → writes to Google Sheet ──
+async function fireLoginEvent() {
+  if(!COMPLETIONS_WEBHOOK) return;
+  const payload = {
+    event_type: 'portal_login',
+    name:    S.name,
+    email:   S.email,
+    company: S.company || '',
+    timestamp: new Date().toISOString()
+  };
+  try {
+    await fetch(COMPLETIONS_WEBHOOK, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) { /* silent fail */ }
+}
+
 function showSheetError(msg) { const el=document.getElementById('sheetError'); el.style.display='block'; el.innerHTML=`<div class="error-banner"><strong>&#9888;&#65039; Setup needed:</strong> ${msg}</div>`; }
 
 function show(id) { 
@@ -3131,6 +3151,7 @@ function startProgram() {
     S.isAdmin=true;
   }
   save();
+  if(!S.isAdmin) fireLoginEvent();
   document.getElementById('topBar').style.display='flex';
   document.getElementById('topUser').textContent=name+(S.isAdmin?' ⚙️':'');
   goModules();
