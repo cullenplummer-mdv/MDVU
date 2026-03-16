@@ -1150,12 +1150,12 @@ body{font-family:'Inter',sans-serif;background:#1a2535;display:flex;flex-directi
 <div id="stage"></div>
 <div id="bottombar">
   <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>← Prev</button>
-  <span class="slide-counter" id="slide-counter">Slide 1 of 62</span>
+  <span class="slide-counter" id="slide-counter">Slide 1 of 63</span>
   <button class="nav-btn" id="btn-next" onclick="navigate(1)">Next →</button>
 </div>
 
 <script>
-const MODULES = [{"id": "M0", "title": "Program Overview", "startIdx": 0, "count": 6}, {"id": "M1", "title": "Introduction to MyDoorView", "startIdx": 6, "count": 9}, {"id": "M2", "title": "Mastering Apps & Interfaces", "startIdx": 15, "count": 12}, {"id": "M3", "title": "Hardware & Installation", "startIdx": 27, "count": 11}, {"id": "M4", "title": "Configuration & Commissioning", "startIdx": 38, "count": 10}, {"id": "M5", "title": "Integration Architecture", "startIdx": 48, "count": 8}, {"id": "M6", "title": "Troubleshooting & OBF", "startIdx": 56, "count": 6}];
+const MODULES = [{"id": "M0", "title": "Program Overview", "startIdx": 0, "count": 6}, {"id": "M1", "title": "Introduction to MyDoorView", "startIdx": 6, "count": 9}, {"id": "M2", "title": "Mastering Apps & Interfaces", "startIdx": 15, "count": 12}, {"id": "M3", "title": "Hardware & Installation", "startIdx": 27, "count": 11}, {"id": "M4", "title": "Configuration & Commissioning", "startIdx": 38, "count": 11}, {"id": "M5", "title": "Integration Architecture", "startIdx": 49, "count": 8}, {"id": "M6", "title": "Troubleshooting & OBF", "startIdx": 57, "count": 6}];
 const SLIDES = [
 `<div class="slide" style="flex-direction:row;">
   <div class="ab"></div>
@@ -3190,17 +3190,11 @@ const SLIDES = [
 <div class="ds-col"><div class="ds-col-label">Basic Identity</div>
 <div class="ds-field"><div class="ds-icon">&#127991;&#65039;</div><div class="ds-name">Display Name</div><div class="ds-desc">Use something descriptive &mdash; "Lobby Panel" not "Device 1". You will thank yourself when troubleshooting at 9pm.</div></div>
 <div class="ds-field"><div class="ds-icon">&#128223;</div><div class="ds-name">Device Type &amp; Site Assignment</div><div class="ds-desc">Select the correct VUE model and assign it to the site you just created. A device can only belong to one site.</div></div>
-<div class="ds-field opt"><div class="ds-icon">&#128292;</div><div class="ds-name">Directory Name Format</div><div class="ds-desc">Abbreviate first or last names in the panel directory. Useful for large directories with limited screen space.</div></div>
 </div>
 <div class="ds-col"><div class="ds-col-label">Critical &mdash; Verify Before Saving</div>
 <div class="ds-field crit"><div class="ds-icon">&#128336;</div><div class="ds-name">&#9888;&#65039; Timezone &mdash; Must Be Correct</div><div class="ds-desc">Controls when credential schedules activate and expire. Wrong timezone = schedules fire at wrong times. Confirm the property address and set this explicitly.</div></div>
 <div class="ds-field crit"><div class="ds-icon">&#128260;</div><div class="ds-name">&#9888;&#65039; Boot Frequency</div><div class="ds-desc">How often the device syncs from the cloud. Set too low and roster changes &mdash; new residents, revoked access &mdash; will not propagate in a timely manner.</div></div>
 <div class="ds-field"><div class="ds-icon">&#128187;</div><div class="ds-name">Screen Layout</div><div class="ds-desc">Portrait or Landscape. VUE-7R typically uses Portrait for wall-mount installs. Confirm with site conditions.</div></div>
-</div>
-<div class="ds-col"><div class="ds-col-label">Interface Toggles</div>
-<div class="ds-field"><div class="ds-icon">&#128222;</div><div class="ds-name">Office Button</div><div class="ds-desc">When enabled, visitors can call the property office directly from the panel &mdash; useful for buildings with front desk staff.</div></div>
-<div class="ds-field"><div class="ds-icon">&#128203;</div><div class="ds-name">Directory &amp; PIN Buttons</div><div class="ds-desc">Toggle the resident directory and keypad PIN entry. Some properties prefer keypad-only for privacy.</div></div>
-<div class="ds-field"><div class="ds-icon">&#128070;</div><div class="ds-name">Tap to Unlock</div><div class="ds-desc">Enables touchscreen unlock for credentialed users. Toggle based on the property manager's security preference.</div></div>
 </div>
 </div></div>
 <div class="bottom-bar"><span>MyDoorView &middot; MCTS Certification Program</span><span>Module 04 &middot; System Configuration &amp; Setup</span></div>
@@ -3222,21 +3216,40 @@ const SLIDES = [
 <div class="cfg-item"><div class="ci-icon">&#128260;</div><div><div class="ci-title">Refresh Rate</div><div class="ci-desc">How often the device pulls updated data from the cloud. Affects how quickly new residents and revoked credentials appear at the panel.</div></div></div>
 <div class="cfg-item"><div class="ci-icon">&#127912;</div><div><div class="ci-title">Branding: Logo, Displayed Phone Number</div><div class="ci-desc">The displayed number shows on the panel face &mdash; usually the leasing office. Upload the property logo for a polished look.</div></div></div>
 </div>
-<div class="cfg-section"><div class="cfg-section-label">Device-Level Panel Toggles</div>
-<div class="cfg-item"><div class="ci-icon">&#128205;</div><div><div class="ci-title">Directory Button — Show or Hide the Resident List</div><div class="ci-desc">When disabled, visitors cannot browse the resident directory on the panel touchscreen. Useful for properties that want all calls routed through the office button instead.</div></div></div>
-<div class="cfg-item hi"><div class="ci-icon">&#128072;</div><div><div class="ci-title">Tap to Unlock — Proactive App Unlock Button</div><div class="ci-desc">Controls whether the Resident App home screen shows a persistent one-tap unlock button. When enabled, residents can unlock without an incoming call. When disabled, residents can only unlock in response to a panel call &mdash; preferred for security-conscious properties.</div></div></div>
-<div class="cfg-item"><div class="ci-icon">&#128222;</div><div><div class="ci-title">Office Button — Direct Call to Front Desk</div><div class="ci-desc">When enabled, visitors can call the property office directly from the panel. Useful for buildings with front desk or concierge staff.</div></div></div>
+<div class="cfg-section"><div class="cfg-section-label">Interface Toggles</div>
+<div class="cfg-item"><div class="ci-icon">&#128222;</div><div><div class="ci-title">Office Button</div><div class="ci-desc">When enabled, visitors can call the property office directly from the panel — useful for buildings with front desk staff.</div></div></div>
+<div class="cfg-item"><div class="ci-icon">&#128203;</div><div><div class="ci-title">Directory &amp; PIN Buttons</div><div class="ci-desc">Toggle the resident directory and keypad PIN entry on or off. Some properties prefer keypad-only for privacy.</div></div></div>
+<div class="cfg-item hi"><div class="ci-icon">&#128072;</div><div><div class="ci-title">Tap to Unlock</div><div class="ci-desc">Controls whether the Resident App home screen shows a persistent one-tap unlock button. When enabled, residents can unlock without an incoming call. When disabled, residents can only unlock in response to a panel call.</div></div></div>
+<div class="cfg-item"><div class="ci-icon">&#128292;</div><div><div class="ci-title">Directory Name Format</div><div class="ci-desc">Controls how resident names display on the panel touchscreen. Abbreviate first or last names for large directories with limited screen space.</div></div></div>
+<div class="cfg-item"><div class="ci-icon">&#128230;</div><div><div class="ci-title">Delivery Button</div><div class="ci-desc">Toggle the delivery button on or off. When enabled, a dedicated button appears on the panel for delivery providers (UPS, FedEx, etc.) using a static access code — no resident call required.</div></div></div>
 </div>
 </div>
 </div></div></div>
-<div style="display:flex;justify-content:center;position:absolute;bottom:52px;left:0;right:0;">
-  <div style="background:#f0f4f8;border:2px dashed #94a3b8;border-radius:12px;padding:16px 32px;text-align:center;min-width:480px;max-width:620px;">
-    <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#64748b;margin-bottom:6px;">Screenshot Placeholder</div>
-    <div style="font-size:14px;font-weight:700;color:#0f1c2e;margin-bottom:4px;">Relay Config — Configuration Tool</div>
-    <div style="font-size:12px;color:#64748b;line-height:1.5;">Replace with a screenshot of the Relay Configuration screen from the actual configuration tool, showing Relay 1 and Relay 2 settings, NO/NC state, and unlock duration.</div>
-  </div>
-</div>
 <div class="bottom-bar"><span>MyDoorView &middot; MCTS Certification Program</span><span>Module 04 &middot; System Configuration &amp; Setup</span></div>
+</div>`,
+`<div class="slide" id="s6b"><div class="accent-bar"></div>
+  <div class="screen-slide">
+    <div class="screen-slide-header">
+      <div class="eyebrow">Step 3 &middot; Device Configuration &middot; Visual Reference</div>
+      <h2>Relay Configuration <em>Tool &mdash; Live View</em></h2>
+    </div>
+    <div class="screen-area">
+      <span class="screen-placeholder-icon">🖼️</span>
+      <div class="screen-placeholder-title">Relay Config &mdash; Configuration Tool</div>
+      <div class="screen-placeholder-sub">Replace with a screenshot of the Relay Configuration screen from the Dealer Admin View, showing Relay 1 and Relay 2 settings, NO/NC state, unlock duration, and relay name fields.</div>
+      <div class="screen-key-areas">
+        <span class="ska">Relay 1 Settings</span>
+        <span class="ska">Relay 2 Settings</span>
+        <span class="ska">NO/NC State</span>
+        <span class="ska">Unlock Duration</span>
+      </div>
+    </div>
+    <div class="pro-tip">
+      <span class="tip-icon">💡</span>
+      <div><strong>Set relay names before you leave the office.</strong> Descriptive names like &ldquo;Main Lobby&rdquo; and &ldquo;Parking Gate&rdquo; show up in every event log and audit trail &mdash; invaluable when a property manager calls about an access incident six months later.</div>
+    </div>
+  </div>
+  <div class="bottom-bar"><span>MyDoorView &middot; MCTS Certification Program</span><span>Module 04 &middot; System Configuration &amp; Setup</span></div>
 </div>`,
 `<div class="slide" id="s7"><div class="accent-bar"></div>
 <div class="bond-left"><div class="eyebrow">Step 3 Final &middot; Hardware Provisioning</div>
