@@ -470,6 +470,9 @@ html,body{width:100%;min-height:100vh;}
   .resource-card-tag.video { border-color: rgba(0,180,120,0.3); color: var(--mdv-green); background: rgba(0,180,120,0.06); }
   .resource-card-tag.guide { border-color: rgba(0,119,182,0.25); color: var(--mdv-blue); background: rgba(0,119,182,0.06); }
   .resource-card-tag.sheet { border-color: rgba(108,117,125,0.3); color: var(--text-muted); background: var(--surface2); }
+  .resource-card.coming-soon { opacity: 0.55; cursor: default; pointer-events: none; }
+  .resource-card.coming-soon:hover { border-color: var(--border); box-shadow: none; transform: none; }
+  .resource-card-tag.soon { border-color: rgba(108,117,125,0.3); color: var(--text-muted); background: var(--surface2); font-style: italic; }
 
   @media print {
     .top-bar, .cert-actions { display: none !important; }
@@ -2720,12 +2723,12 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
     <div class="resources-category">
       <div class="resources-category-title">&#127891; Study &amp; Certification</div>
       <div class="resources-grid">
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#128221;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">MCTS Study Guide</div>
             <div class="resource-card-desc">Full certification content summary covering all modules.</div>
-            <span class="resource-card-tag pdf">PDF</span>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
 
@@ -2736,36 +2739,28 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
     <div class="resources-category">
       <div class="resources-category-title">&#9881;&#65039; Configuration Quick Guides</div>
       <div class="resources-grid">
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
-          <div class="resource-card-icon">&#128273;</div>
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
+          <div class="resource-card-icon">&#128196;</div>
           <div class="resource-card-info">
-            <div class="resource-card-title">Setting Up Tap to Unlock</div>
-            <div class="resource-card-desc">Step-by-step walkthrough to enable and configure tap-to-unlock in the admin portal.</div>
-            <span class="resource-card-tag guide">Guide</span>
+            <div class="resource-card-title">Coming Soon</div>
+            <div class="resource-card-desc">Configuration guide coming soon.</div>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
-          <div class="resource-card-icon">&#128100;</div>
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
+          <div class="resource-card-icon">&#128196;</div>
           <div class="resource-card-info">
-            <div class="resource-card-title">Directory Button Configuration</div>
-            <div class="resource-card-desc">How to enable/disable directory, set name abbreviation, and manage entries.</div>
-            <span class="resource-card-tag guide">Guide</span>
+            <div class="resource-card-title">Coming Soon</div>
+            <div class="resource-card-desc">Configuration guide coming soon.</div>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
-          <div class="resource-card-icon">&#128274;</div>
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
+          <div class="resource-card-icon">&#128196;</div>
           <div class="resource-card-info">
-            <div class="resource-card-title">PIN Button &amp; Office Button Setup</div>
-            <div class="resource-card-desc">Configuring PIN-based access and the office call button from the admin panel.</div>
-            <span class="resource-card-tag guide">Guide</span>
-          </div>
-        </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
-          <div class="resource-card-icon">&#128438;</div>
-          <div class="resource-card-info">
-            <div class="resource-card-title">Web Viewer Configuration</div>
-            <div class="resource-card-desc">Configuring the web-based viewer interface, display settings, and access controls from the admin portal.</div>
-            <span class="resource-card-tag guide">Guide</span>
+            <div class="resource-card-title">Coming Soon</div>
+            <div class="resource-card-desc">Configuration guide coming soon.</div>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
       </div>
@@ -2775,38 +2770,31 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
     <div class="resources-category">
       <div class="resources-category-title">&#128295; Installation Guides</div>
       <div class="resources-grid">
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#9889;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">Power &amp; Wiring Guide</div>
             <div class="resource-card-desc">Power supply requirements, PoE specs, and wiring diagrams.</div>
-            <span class="resource-card-tag pdf">PDF</span>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#128736;&#65039;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">VUE77R Installation Manual</div>
             <div class="resource-card-desc">Full installation manual for the VUE77R series video intercom.</div>
-            <span class="resource-card-tag pdf">PDF</span>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#128736;&#65039;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">VUE5-ER Installation Manual</div>
             <div class="resource-card-desc">Full installation manual for the VUE5-ER series video intercom.</div>
-            <span class="resource-card-tag pdf">PDF</span>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
-          <div class="resource-card-icon">&#127968;</div>
-          <div class="resource-card-info">
-            <div class="resource-card-title">Mounting Options Overview</div>
-            <div class="resource-card-desc">Surface, flush, and pedestal mount configurations with dimension specs.</div>
-            <span class="resource-card-tag pdf">PDF</span>
-          </div>
-        </a>
+
       </div>
     </div>
 
@@ -2814,28 +2802,28 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
     <div class="resources-category">
       <div class="resources-category-title">&#128196; Product Datasheets</div>
       <div class="resources-grid">
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#128250;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">VUE7R Datasheet</div>
             <div class="resource-card-desc">Specs, features, and SKUs for the VUE7R video intercom unit.</div>
-            <span class="resource-card-tag pdf">PDF</span>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#128250;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">VUE5ER Datasheet</div>
             <div class="resource-card-desc">Specs and features for the VUE5ER intercom model.</div>
-            <span class="resource-card-tag pdf">PDF</span>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#128250;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">VUEQR Datasheet</div>
             <div class="resource-card-desc">Specs and features for the QR-enabled VUEQR model.</div>
-            <span class="resource-card-tag pdf">PDF</span>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
       </div>
@@ -2845,28 +2833,36 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
     <div class="resources-category">
       <div class="resources-category-title">&#127909; Training Videos</div>
       <div class="resources-grid">
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#9654;&#65039;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">System Overview Video</div>
             <div class="resource-card-desc">A guided walkthrough of the MyDoorView platform for new dealers.</div>
-            <span class="resource-card-tag video">Video</span>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#9654;&#65039;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">Admin Portal Walkthrough</div>
             <div class="resource-card-desc">Full tour of the dealer/admin portal interface and key settings.</div>
-            <span class="resource-card-tag video">Video</span>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#9654;&#65039;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">Hardware Installation Video</div>
             <div class="resource-card-desc">Visual guide to physical installation and wiring of VUE series units.</div>
-            <span class="resource-card-tag video">Video</span>
+            <span class="resource-card-tag soon">Coming Soon</span>
+          </div>
+        </a>
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
+          <div class="resource-card-icon">&#9654;&#65039;</div>
+          <div class="resource-card-info">
+            <div class="resource-card-title">Dealer Portal Overview</div>
+            <div class="resource-card-desc">Walkthrough of the dealer portal — setup, management, and key workflows.</div>
+            <span class="resource-card-tag soon">Coming Soon</span>
           </div>
         </a>
       </div>
@@ -2876,7 +2872,7 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
     <div class="resources-category">
       <div class="resources-category-title">&#128279; Integration Guides</div>
       <div class="resources-grid">
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card" href="https://mydoorview.com/knowledgebase/setting-up-the-brivo-mydoorview-integration" target="_blank">
           <div class="resource-card-icon">&#128279;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">Brivo Integration Guide</div>
@@ -2884,7 +2880,7 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
             <span class="resource-card-tag guide">Guide</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card" href="https://mydoorview.com/knowledgebase/setting-up-the-pdk-mydoorview-integration" target="_blank">
           <div class="resource-card-icon">&#128279;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">PDK Integration Guide</div>
@@ -2892,11 +2888,50 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
             <span class="resource-card-tag guide">Guide</span>
           </div>
         </a>
-        <a class="resource-card" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
           <div class="resource-card-icon">&#128279;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">Kantech Integration Guide</div>
             <div class="resource-card-desc">Step-by-step setup of the MyDoorView integration with the Kantech access control platform.</div>
+            <span class="resource-card-tag soon">Coming Soon</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- End User Admin Guides -->
+    <div class="resources-category">
+      <div class="resources-category-title">&#128101; End User Admin Guides</div>
+      <div class="resources-grid">
+        <a class="resource-card" href="https://mydoorview.com/knowledgebase/hiding-a-user-from-the-directory" target="_blank">
+          <div class="resource-card-icon">&#128065;&#65039;</div>
+          <div class="resource-card-info">
+            <div class="resource-card-title">Hiding a User from the Directory</div>
+            <div class="resource-card-desc">How to hide a resident or user from appearing in the intercom directory.</div>
+            <span class="resource-card-tag guide">Guide</span>
+          </div>
+        </a>
+        <a class="resource-card" href="https://mydoorview.com/knowledgebase/web-viewer" target="_blank">
+          <div class="resource-card-icon">&#128438;</div>
+          <div class="resource-card-info">
+            <div class="resource-card-title">Configure Web Viewer</div>
+            <div class="resource-card-desc">Setting up and managing the web-based viewer for door monitoring and access.</div>
+            <span class="resource-card-tag guide">Guide</span>
+          </div>
+        </a>
+        <a class="resource-card" href="https://mydoorview.com/knowledgebase/adding-property-managers" target="_blank">
+          <div class="resource-card-icon">&#128100;</div>
+          <div class="resource-card-info">
+            <div class="resource-card-title">Adding End User Administrators</div>
+            <div class="resource-card-desc">How to add property managers and admin-level users to a property.</div>
+            <span class="resource-card-tag guide">Guide</span>
+          </div>
+        </a>
+        <a class="resource-card" href="https://mydoorview.com/knowledgebase/adding-users" target="_blank">
+          <div class="resource-card-icon">&#128116;</div>
+          <div class="resource-card-info">
+            <div class="resource-card-title">Adding Users / Tenants / Residents</div>
+            <div class="resource-card-desc">Step-by-step guide to adding residents and tenants to the system.</div>
             <span class="resource-card-tag guide">Guide</span>
           </div>
         </a>
