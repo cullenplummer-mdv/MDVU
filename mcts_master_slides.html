@@ -593,7 +593,7 @@ body{font-family:'Inter',sans-serif;background:#1a2535;display:flex;flex-directi
 .hw-card-name{font-family:'DM Serif Display',serif;font-size:19px;color:#fff;font-weight:400;line-height:1.1}
 .hw-card-tagline{font-size:11.5px;color:rgba(255,255,255,.75);font-style:italic}
 .hw-card-body{flex:1;padding:12px 16px;background:#f8fafc;display:flex;flex-direction:column;gap:6px}
-.hw-spec-row{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#334155;line-height:1.4}
+.hw-spec-row{display:flex;align-items:flex-start;gap:4px;font-size:12px;color:#334155;line-height:1.2;margin-bottom:2px}
 .hw-spec-icon{flex-shrink:0;width:16px;text-align:center}
 .hw-card-use{background:#e0f4fd;border-radius:7px;padding:7px 10px;margin-top:4px}
 .hw-card-use-label{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#0077b6;margin-bottom:3px}
@@ -1962,9 +1962,7 @@ const SLIDES = [
       <h2>Partner Portal <em>Live View</em></h2>
     </div>
     <div class="screen-area">
-      <span class="screen-placeholder-icon">🖼️</span>
-      <div class="screen-placeholder-title">Partner Portal Screenshot</div>
-      <div class="screen-placeholder-sub">Replace this placeholder with a screenshot of the Dealer Partner Portal. Capture the main dashboard showing the property list, account creation button, and Remote Login entry point.</div>
+      <img src="https://github.com/cullenplummer-mdv/MDVU/blob/main/images/Dealer%20Portal%20(1).png?raw=true" alt="Dealer Partner Portal Screenshot" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;display:block;margin:auto;" />
       <div class="screen-key-areas">
         <span class="ska">Property List</span>
         <span class="ska">Create Account</span>
@@ -2123,9 +2121,7 @@ const SLIDES = [
       <h2>Admin Portal <em>Live View</em></h2>
     </div>
     <div class="screen-area">
-      <span class="screen-placeholder-icon">🖼️</span>
-      <div class="screen-placeholder-title">Admin Portal Screenshot</div>
-      <div class="screen-placeholder-sub">Replace this placeholder with a screenshot of the Admin Portal. Capture the main dashboard showing the resident list, event log, and left navigation panel.</div>
+      <img src="https://github.com/cullenplummer-mdv/MDVU/blob/main/images/Admin%20Portal%20(1).png?raw=true" alt="Admin Portal Screenshot" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;display:block;margin:auto;" />
       <div class="screen-key-areas">
         <span class="ska">Resident List</span>
         <span class="ska">Event Log</span>
@@ -2437,17 +2433,23 @@ const SLIDES = [
           <div class="hw-card-name">7" Touchscreen Panel</div>
           <div class="hw-card-tagline">Main lobbies, retrofits, multi-tenant entrances</div>
         </div>
-        <div class="hw-card-body" style="gap:0;justify-content:flex-end;">
-          <div style="height:140px;background:linear-gradient(135deg,#f0f4f8,#e2e8f0);border-radius:8px;margin-bottom:auto;display:flex;align-items:center;justify-content:center;border:1.5px dashed #cbd5e1;flex-shrink:0;"><span style="font-size:10px;font-weight:600;color:#94a3b8;letter-spacing:.07em;text-transform:uppercase;">Photo Placeholder</span></div><div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:4px;margin-top:8px;"><span class="hw-spec-icon">🖥️</span>7" touchscreen · 800×1280 display · directory navigation</div>
-          <div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:4px;"><span class="hw-spec-icon">📹</span>2MP wide-angle camera · full HD video calls to app</div>
-          <div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:4px;"><span class="hw-spec-icon">⚡</span>PoE+ (D Port) or 12V DC (C Port)</div>
-          <div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:8px;"><span class="hw-spec-icon">🔒</span>2 independent relays · IP65 rated with official backbox</div>
-          <div class="hw-card-use">
-            <div class="hw-card-use-label">Use this when…</div>
-            <div class="hw-card-use-text">Main building entrance, gated vehicle entry, or multi-tenant lobby needing a full resident directory</div>
+        <div class="hw-card-body" style="gap:0;display:grid;grid-template-rows:160px auto 1fr auto;padding:12px 16px;">
+          <div style="display:flex;align-items:center;justify-content:center;"><img src="https://github.com/cullenplummer-mdv/MDVU/blob/main/images/VUE-7R%20NP.png?raw=true" alt="VUE-7R" style="max-height:155px;max-width:90%;object-fit:contain;display:block;margin:auto;" /></div>
+          <div style="display:flex;flex-direction:column;gap:3px;padding:24px 0 6px;">
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>7" touchscreen · 800×1280 display · directory navigation</div>
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>2MP wide-angle camera · full HD video calls to app</div>
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>PoE+ (D Port) or 12V DC (C Port)</div>
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>2 independent relays · IP65 rated with official backbox</div>
           </div>
-          <div class="hw-card-warning">
-            <div class="hw-card-warning-text">⚠️ Backbox is <strong>required</strong> and sold separately — order it with every VUE-7R job</div>
+          <div></div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div class="hw-card-use">
+              <div class="hw-card-use-label">Use this when…</div>
+              <div class="hw-card-use-text">Main building entrance, gated vehicle entry, or multi-tenant lobby needing a full resident directory</div>
+            </div>
+            <div class="hw-card-warning">
+              <div class="hw-card-warning-text">⚠️ Backbox is <strong>required</strong> and sold separately — order it with every VUE-7R job</div>
+            </div>
           </div>
         </div>
       </div>
@@ -2457,11 +2459,15 @@ const SLIDES = [
           <div class="hw-card-name">Mullion Intercom Panel</div>
           <div class="hw-card-tagline">Narrow frames, gates, credential readers</div>
         </div>
-        <div class="hw-card-body" style="gap:0;justify-content:flex-end;">
-          <div style="height:140px;background:linear-gradient(135deg,#f0f4f8,#e2e8f0);border-radius:8px;margin-bottom:auto;display:flex;align-items:center;justify-content:center;border:1.5px dashed #cbd5e1;flex-shrink:0;"><span style="font-size:10px;font-weight:600;color:#94a3b8;letter-spacing:.07em;text-transform:uppercase;">Photo Placeholder</span></div><div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:4px;margin-top:8px;"><span class="hw-spec-icon">📐</span>2.13" wide profile — fits standard aluminum mullions</div>
-          <div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:4px;"><span class="hw-spec-icon">📹</span>Full HD video · same call quality as VUE-7R</div>
-          <div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:4px;"><span class="hw-spec-icon">🔑</span>Integrated Wavelynx reader: NFC, Prox, Bluetooth</div>
-          <div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:8px;"><span class="hw-spec-icon">🔒</span>IP65 rated · supports NO and NC relay configs</div>
+        <div class="hw-card-body" style="gap:0;display:grid;grid-template-rows:160px auto 1fr auto;padding:12px 16px;">
+          <div style="display:flex;align-items:center;justify-content:center;"><img src="https://github.com/cullenplummer-mdv/MDVU/blob/main/images/vue%205%20better.png?raw=true" alt="VUE 5-ER" style="max-height:155px;max-width:90%;object-fit:contain;display:block;margin:auto;" /></div>
+          <div style="display:flex;flex-direction:column;gap:3px;padding:24px 0 6px;">
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>2.13" wide profile — fits standard aluminum mullions</div>
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>Full HD video · same call quality as VUE-7R</div>
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>Integrated Wavelynx reader: NFC, Prox, Bluetooth</div>
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>IP65 rated · supports NO and NC relay configs</div>
+          </div>
+          <div></div>
           <div class="hw-card-use">
             <div class="hw-card-use-label">Use this when…</div>
             <div class="hw-card-use-text">VUE-7R won't fit the frame, or the job requires a credential reader alongside the intercom</div>
@@ -2474,11 +2480,15 @@ const SLIDES = [
           <div class="hw-card-name">No-Cable Access Point</div>
           <div class="hw-card-tagline">Secondary doors, amenity spaces, no-cable locations</div>
         </div>
-        <div class="hw-card-body" style="gap:0;justify-content:flex-end;">
-          <div style="height:140px;background:linear-gradient(135deg,#f0f4f8,#e2e8f0);border-radius:8px;margin-bottom:auto;display:flex;align-items:center;justify-content:center;border:1.5px dashed #cbd5e1;flex-shrink:0;"><span style="font-size:10px;font-weight:600;color:#94a3b8;letter-spacing:.07em;text-transform:uppercase;">Photo Placeholder</span></div><div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:4px;margin-top:8px;"><span class="hw-spec-icon">🪧</span>Physical placard or sticker — no electronics, no cable run</div>
-          <div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:4px;"><span class="hw-spec-icon">📱</span>Visitor scans QR code → calls resident via MDV cloud</div>
-          <div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:4px;"><span class="hw-spec-icon">📍</span>GPS geo-fenced — only works at registered location</div>
-          <div class="hw-spec-row" style="font-size:12px;line-height:1.3;margin-bottom:8px;"><span class="hw-spec-icon">💰</span>Lowest cost per access point on any project</div>
+        <div class="hw-card-body" style="gap:0;display:grid;grid-template-rows:160px auto 1fr auto;padding:12px 16px;">
+          <div style="display:flex;align-items:center;justify-content:center;"><img src="https://github.com/cullenplummer-mdv/MDVU/blob/main/images/MDV-QR.png?raw=true" alt="VUE-QR" style="max-height:155px;max-width:90%;object-fit:contain;display:block;margin:auto;" /></div>
+          <div style="display:flex;flex-direction:column;gap:3px;padding:24px 0 6px;">
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>Physical placard or sticker — no electronics, no cable run</div>
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>Visitor scans QR code → calls resident via MDV cloud</div>
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>GPS geo-fenced — only works at registered location</div>
+            <div style="font-size:12px;line-height:1.3;padding-left:10px;position:relative;color:#334155;"><span style="position:absolute;left:0;color:#0077b6;font-weight:700;">·</span>Lowest cost per access point on any project</div>
+          </div>
+          <div></div>
           <div class="hw-card-use">
             <div class="hw-card-use-label">Use this when…</div>
             <div class="hw-card-use-text">Pool gate, gym, package room — anywhere running cable (network or power) isn't feasible</div>
@@ -2530,9 +2540,7 @@ const SLIDES = [
   </div>
   <div class="v7-right">
     <div class="v7-img-placeholder">
-      <span class="v7-img-icon">📷</span>
-      <div class="v7-img-label">VUE-7R Product Photo</div>
-      <div class="v7-img-sub">Replace with official product image</div>
+      <img src="https://github.com/cullenplummer-mdv/MDVU/blob/main/images/VUE-7R%20NP.png?raw=true" alt="VUE-7R Product Photo" style="max-width:85%;max-height:85%;object-fit:contain;display:block;margin:auto;" />
     </div>
     <div class="v7-visual">
       <div class="v7-vis-title">VUE-7R <em>Technical Specs</em></div>
@@ -2574,9 +2582,7 @@ const SLIDES = [
   <div class="accent-bar"></div>
   <div class="dev-left er-bg">
     <div class="dev-img-placeholder">
-      <span class="dev-img-icon">📷</span>
-      <div class="dev-img-label">VUE 5-ER Product Photo</div>
-      <div class="dev-img-sub">Replace with official product image</div>
+      <img src="https://github.com/cullenplummer-mdv/MDVU/blob/main/images/vue%205%20better.png?raw=true" alt="VUE 5-ER Product Photo" style="max-width:100%;max-height:100%;object-fit:contain;display:block;margin:auto;" />
     </div>
     <div class="dev-left-info">
       <div class="dev-badge-label">VUE 5-ER · Mullion Intercom</div>
@@ -2635,9 +2641,7 @@ const SLIDES = [
   <div class="accent-bar"></div>
   <div class="dev-left qr-bg">
     <div class="dev-img-placeholder">
-      <span class="dev-img-icon">📷</span>
-      <div class="dev-img-label">VUE-QR Placard Photo</div>
-      <div class="dev-img-sub">Replace with official product image</div>
+      <img src="https://github.com/cullenplummer-mdv/MDVU/blob/main/images/MDV-QR.png?raw=true" alt="VUE-QR Placard Photo" style="max-width:100%;max-height:100%;object-fit:contain;display:block;margin:auto;" />
     </div>
     <div class="dev-left-info">
       <div class="dev-badge-label">VUE-QR · Access Placard</div>
