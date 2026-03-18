@@ -2633,7 +2633,7 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
       <div>
         <div style="font-weight:700;color:var(--text);margin-bottom:0.35rem;">Not feeling 100% ready? Review the Study Guide first.</div>
         <div style="font-size:0.88rem;color:var(--text-muted);line-height:1.65;margin-bottom:0.75rem;">The MCTS Study Guide summarizes every module — key specs, configuration steps, integration logic, and diagnostic rules — in one place. It's your fastest review before the exam.</div>
-        <button onclick="openStudyGuide()" style="padding:0.55rem 1.25rem;border-radius:8px;border:1px solid rgba(0,150,199,0.5);background:rgba(0,150,199,0.12);color:#38b6d8;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:0.02em;">&#128196; Open Study Guide &rarr;</button>
+        <button onclick="openStudyGuide()" id="examStudyGuideBtn" style="padding:0.55rem 1.25rem;border-radius:8px;border:1px solid rgba(0,150,199,0.5);background:rgba(0,150,199,0.12);color:#38b6d8;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:0.02em;">&#128196; Open Study Guide &rarr;</button>
       </div>
     </div>
 
@@ -2723,12 +2723,12 @@ h2.slide-title em{font-style:italic;color:#0077b6;}
     <div class="resources-category">
       <div class="resources-category-title">&#127891; Study &amp; Certification</div>
       <div class="resources-grid">
-        <a class="resource-card coming-soon" href="#" onclick="return false;" title="Coming soon">
+        <a class="resource-card" id="studyGuideResourceCard" href="#" onclick="openStudyGuideFromResources(); return false;" title="MCTS Study Guide">
           <div class="resource-card-icon">&#128221;</div>
           <div class="resource-card-info">
             <div class="resource-card-title">MCTS Study Guide</div>
-            <div class="resource-card-desc">Full certification content summary covering all modules.</div>
-            <span class="resource-card-tag soon">Coming Soon</span>
+            <div class="resource-card-desc">Full certification content summary covering all modules. Available after all modules are passed.</div>
+            <span class="resource-card-tag guide" id="studyGuideResourceTag">&#128274; Complete All Modules</span>
           </div>
         </a>
 
@@ -3197,6 +3197,7 @@ function goModules() { show('modules'); renderDashboard(); updateProgress(); doc
 function goResources() { show('resources'); document.getElementById('resourcesBtn').classList.add('active'); }
 
 function updateProgress() {
+  setTimeout(updateStudyGuideCard, 0);
   const passed=S.progress.filter(p=>p==='passed').length;
   const total=CONTENT.modules.length+1;
   const pct=S.examScore>=80?100:Math.round((passed/total)*100);
@@ -3412,11 +3413,57 @@ function startExam() {
 }
 
 function openStudyGuide() {
-  // Opens study guide — update URL once hosted
-  const url = document.getElementById('studyGuideUrl') ? document.getElementById('studyGuideUrl').value : '#';
-  if (url && url !== '#') { window.open(url, '_blank'); }
-  else { alert('Study Guide coming soon! Check the Dealer Resource Library tab.'); }
+  const allPassed = S.progress && S.progress.length > 0 && S.progress.every(p => p === 'passed');
+  const isAdmin = S.adminMode;
+  if (!allPassed && !isAdmin) {
+    alert('The Study Guide unlocks after all modules and quizzes are passed. Complete all 7 modules to access it.');
+    return;
+  }
+  document.getElementById('studyGuideModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
 }
+
+function closeStudyGuide() {
+  document.getElementById('studyGuideModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function openStudyGuideFromResources() {
+  openStudyGuide();
+}
+
+function updateStudyGuideCard() {
+  const allPassed = S.progress && S.progress.length > 0 && S.progress.every(p => p === 'passed');
+  const isAdmin = S.adminMode;
+  const unlocked = allPassed || isAdmin;
+  const card = document.getElementById('studyGuideResourceCard');
+  const tag = document.getElementById('studyGuideResourceTag');
+  const examBtn = document.getElementById('examStudyGuideBtn');
+  if (card) {
+    if (unlocked) {
+      card.classList.remove('coming-soon');
+      card.style.opacity = '';
+      card.style.pointerEvents = '';
+      card.style.cursor = '';
+      if (tag) { tag.textContent = '📖 Study Guide'; tag.className = 'resource-card-tag guide'; }
+    } else {
+      card.style.opacity = '0.55';
+      card.style.pointerEvents = 'auto';
+      card.style.cursor = 'pointer';
+      if (tag) { tag.textContent = '🔒 Complete All Modules'; tag.className = 'resource-card-tag soon'; }
+    }
+  }
+  if (examBtn) {
+    if (unlocked) {
+      examBtn.innerHTML = '&#128196; Open Study Guide &rarr;';
+      examBtn.style.opacity = '';
+    } else {
+      examBtn.innerHTML = '&#128274; Study Guide — Complete All Modules to Unlock';
+      examBtn.style.opacity = '0.6';
+    }
+  }
+}
+
 
 function _beginExam() {
   S.isExam=true; S.currentMod=null; S.questions=shuffle(CONTENT.finalExam.map(parseQ)); S.qIdx=0; S.answers=[];
@@ -3756,5 +3803,664 @@ document.addEventListener('keydown', e => {
 window.addEventListener('resize', sv_applyScale);
 
 </script>
+
+<!-- ===== STUDY GUIDE MODAL ===== -->
+<div id="studyGuideModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(10,22,40,0.82);backdrop-filter:blur(4px);overflow-y:auto;">
+  <div style="max-width:1080px;margin:2rem auto;padding:0 1rem 3rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding:0.75rem 1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(0,150,199,0.25);border-radius:10px;">
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:#e0f4fd;letter-spacing:0.03em;">&#128196; MCTS Study Guide</div>
+      <button onclick="closeStudyGuide()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:7px;color:#90b8d0;font-size:0.85rem;font-weight:600;padding:0.45rem 1rem;cursor:pointer;font-family:inherit;" onmouseover="this.style.background='rgba(220,53,69,0.2)';this.style.color='#ff8a8a';" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.color='#90b8d0';">&#10005; Close</button>
+    </div>
+    <style>
+
+  :root {
+    --mdv-blue: #0096c7;
+    --mdv-blue-dark: #0077b6;
+    --mdv-cyan: #00b4d8;
+    --mdv-green: #5cb85c;
+    --mdv-teal: #2aad88;
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --surface2: #e8f1f8;
+    --border: #c8dff0;
+    --accent: #0096c7;
+    --text: #1a2a3a;
+    --text-muted: #4a6070;
+    --text-dim: #8aa0b0;
+    --success: #2d9e5f;
+    --danger: #c0392b;
+    --warning: #d97706;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .sg-modal-content { scroll-behavior: smooth; }
+  .sg-modal-content {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle, rgba(0,150,199,0.09) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none; z-index: 0;
+  }
+
+  .site-header {
+    background: rgba(255,255,255,0.97);
+    border-bottom: 2px solid var(--mdv-blue);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex; align-items: center; gap: 1.25rem;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,119,182,0.10);
+  }
+  .header-badge {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.72rem;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--accent);
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 10px;
+  }
+  .header-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.0rem;
+    color: var(--text);
+  }
+  .header-sub {
+    font-size: 0.78rem; color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    gap: 2rem;
+    position: relative; z-index: 1;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 76px;
+    height: fit-content;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 0;
+    box-shadow: 0 2px 8px rgba(0,119,182,0.06);
+  }
+  .sidebar-label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 0 1.25rem 0.6rem;
+  }
+  .sidebar a {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.83rem; font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  .sidebar a:hover, .sidebar a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: var(--surface2);
+  }
+  .sidebar-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .sidebar-divider { height: 1px; background: var(--border); margin: 0.6rem 0; }
+
+  .main { min-width: 0; }
+
+  .hero {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0,119,182,0.06);
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.5rem;
+    color: var(--text); margin-bottom: 0.4rem;
+  }
+  .hero p { color: var(--text-muted); font-size: 0.88rem; max-width: 560px; line-height: 1.6; }
+  .hero-stats {
+    display: flex; gap: 1.25rem; margin-top: 1.25rem; flex-wrap: wrap;
+  }
+  .stat {
+    display: flex; flex-direction: column;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 1.1rem;
+    min-width: 105px;
+  }
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.35rem;
+    color: var(--accent); line-height: 1.1;
+  }
+  .stat-label { font-size: 0.71rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+
+  .module-section {
+    margin-bottom: 2.75rem;
+    scroll-margin-top: 80px;
+  }
+  .module-header {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .module-tag {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.68rem;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: #fff; border-radius: 4px;
+    padding: 3px 9px; flex-shrink: 0;
+  }
+  .module-title-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 1.0rem;
+    color: var(--text);
+  }
+
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  .concept-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    padding: 1rem 1.1rem;
+    box-shadow: 0 1px 4px rgba(0,119,182,0.05);
+  }
+  .concept-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.8rem;
+    color: var(--text); margin-bottom: 0.3rem;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .concept-.sg-modal-content {
+    font-size: 0.82rem; color: var(--text-muted); line-height: 1.58;
+  }
+  .concept-body strong { color: var(--text); }
+
+  .watchout-list {
+    display: flex; flex-direction: column; gap: 0.6rem;
+    margin-top: 0.85rem;
+  }
+  .watchout {
+    display: flex; align-items: flex-start; gap: 0.65rem;
+    background: rgba(192,57,43,0.05);
+    border: 1.5px solid rgba(192,57,43,0.18);
+    border-left: 4px solid var(--danger);
+    border-radius: 7px;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.82rem; color: var(--text-muted); line-height: 1.55;
+  }
+  .watchout-icon { font-size: 0.9rem; flex-shrink: 0; margin-top: 1px; }
+  .watchout strong { color: var(--text); }
+
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+    margin-bottom: 1rem;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,119,182,0.05);
+  }
+  .ref-table th {
+    background: var(--surface2);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.7rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.55rem 0.9rem;
+    text-align: left;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .ref-table td {
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: top;
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table td:first-child { font-weight: 600; color: var(--text); width: 40%; }
+  .badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.65rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 3px;
+  }
+  .badge-red { background: rgba(192,57,43,0.1); color: var(--danger); }
+
+  .scroll-top {
+    position: fixed; bottom: 1.5rem; right: 1.5rem;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 50%;
+    width: 38px; height: 38px;
+    font-size: 1rem; cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0,150,199,0.3);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200; opacity: 0; transition: opacity 0.2s;
+  }
+  .scroll-top.visible { opacity: 1; }
+
+  @media (max-width: 720px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+  }
+
+    </style>
+    <div class="sg-modal-content">
+<header class="site-header">
+  <span class="header-badge">MCTS</span>
+  <span class="header-title">Final Exam Study Guide</span>
+  <span class="header-sub">6 Modules · 80% to Pass</span>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-label">Modules</div>
+    <a href="#mod0"><span class="sidebar-dot" style="background:#6c757d"></span>M0 · Orientation</a>
+    <a href="#mod1"><span class="sidebar-dot" style="background:#0077b6"></span>M1 · Intro to MDV</a>
+    <a href="#mod2"><span class="sidebar-dot" style="background:#005f92"></span>M2 · Apps & Interfaces</a>
+    <a href="#mod3"><span class="sidebar-dot" style="background:#0077b6"></span>M3 · Hardware</a>
+    <a href="#mod4"><span class="sidebar-dot" style="background:#0096c7"></span>M4 · Configuration</a>
+    <a href="#mod5"><span class="sidebar-dot" style="background:#00b4d8"></span>M5 · Integrations</a>
+    <a href="#mod6"><span class="sidebar-dot" style="background:#2aad88"></span>M6 · Troubleshooting</a>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-label">Quick Reference</div>
+    <a href="#ref-power"><span class="sidebar-dot" style="background:#d97706"></span>Power &amp; Cabling</a>
+    <a href="#ref-diag"><span class="sidebar-dot" style="background:#c0392b"></span>Diagnostic Logic</a>
+  </aside>
+
+  <main class="main">
+
+    <div class="hero">
+      <h1>MCTS Exam Prep</h1>
+      <p>Key concepts, specs, and workflows to know before sitting the Final Exam. Pay close attention to the watch-out callouts — those cover the most common points of confusion in the field and on the exam.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-val">50</span><span class="stat-label">Exam Questions</span></div>
+        <div class="stat"><span class="stat-val">80%</span><span class="stat-label">Passing Score</span></div>
+        <div class="stat"><span class="stat-val">40</span><span class="stat-label">Correct to Pass</span></div>
+        <div class="stat"><span class="stat-val">6</span><span class="stat-label">Core Modules</span></div>
+      </div>
+    </div>
+
+    <!-- M0 -->
+    <section class="module-section" id="mod0">
+      <div class="module-header">
+        <span class="module-tag" style="background:#6c757d">M0</span>
+        <span class="module-title-text">Orientation &amp; Certification Overview</span>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-title">🏆 Passing Requirement</div>
+          <div class="concept-body"><strong>80%</strong> — 40 out of 50 questions correct. Anything below is a fail.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">💻 Recommended Setup</div>
+          <div class="concept-body">Use a <strong>desktop or laptop</strong> to complete the certification. Mobile is not recommended.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">📚 Program Structure</div>
+          <div class="concept-body"><strong>6 core modules</strong> (M1–M6) completed in order, then the Final Exam. Each module quiz must be passed before the next unlocks.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🛠️ Warranty Rule</div>
+          <div class="concept-body">Do not attempt field service unless directed by MDV Technical Support. Unauthorized repairs — including opening the back panel — <strong>void the warranty</strong>.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- M1 -->
+    <section class="module-section" id="mod1">
+      <div class="module-header">
+        <span class="module-tag" style="background:#0077b6">M1</span>
+        <span class="module-title-text">Introduction to MyDoorView</span>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-title">☁️ Cloud-Native Architecture</div>
+          <div class="concept-body">All access events, permissions, and video/audio streaming are managed via the <strong>MDV cloud</strong>. No local servers, DVRs, or on-site infrastructure required.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🖥️ VUE-7R</div>
+          <div class="concept-body">Flagship intercom. <strong>7" touchscreen</strong>, HD video, two-way audio, relay and Wiegand control. Best for main entrances and high-traffic lobbies with large resident directories.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">📏 VUE-5ER</div>
+          <div class="concept-body">Slim mullion intercom — <strong>2.13 inches wide</strong>. Built for narrow door frames and retrofit commercial installs where the VUE-7R won't fit.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">📋 VUE-QR Placard</div>
+          <div class="concept-body"><strong>Non-electronic</strong> sticker/placard. Zero wiring or power at the mounting point. Visitors scan the QR code to trigger a cloud-based access event.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🔗 Integration Ecosystem</div>
+          <div class="concept-body">MDV connects with <strong>Brivo, PDK, and Kantech</strong> via Cloud-to-Cloud API — extending video intercom capability to existing Access Control Systems.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">♾️ Scalability</div>
+          <div class="concept-body">Supports <strong>unlimited users and panels</strong> per property. All entry points managed from a single cloud platform.</div>
+        </div>
+      </div>
+      <div class="watchout-list">
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div>The VUE-QR is a <strong>passive placard — no electronics, no camera, no wiring</strong>. Visitors do not need the MDV app to scan it. Only the resident receiving the resulting call needs the app.</div></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div>The VUE-5ER runs on the <strong>exact same cloud platform</strong> as the VUE-7R — same portals, same Resident App, same configuration workflow. Only the hardware footprint differs.</div></div>
+      </div>
+    </section>
+
+    <!-- M2 -->
+    <section class="module-section" id="mod2">
+      <div class="module-header">
+        <span class="module-tag" style="background:#005f92">M2</span>
+        <span class="module-title-text">Mastering Apps &amp; Interfaces</span>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-title">🏠 Resident App</div>
+          <div class="concept-body">End-users receive HD video calls, remotely unlock doors, send Guest PINs, and enable Do Not Disturb. Must be added by a manager first and complete SMS verification.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🖥️ Admin Web Portal vs. Admin App</div>
+          <div class="concept-body"><strong>Web Portal (Desktop):</strong> bulk configuration, CSV imports, reporting.<br><strong>Admin App (Mobile):</strong> quick on-the-go tasks only. Not for bulk work.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🔑 Dealer/Partner Portal</div>
+          <div class="concept-body">Dealer's command center. Used to <strong>create client accounts</strong>, access the Resource Library, and initiate the Remote Login handshake.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🤝 Remote Login Handshake</div>
+          <div class="concept-body">Initiated from the Dealer Portal. Opens the <strong>Dealer Admin View</strong> — unlocking System Configuration and Device Change menus hidden from property managers.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">📂 Resource Library</div>
+          <div class="concept-body">Lives inside the Dealer/Partner Portal. Contains all current <strong>price books, installation guides, and technical documentation</strong>.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">👥 Bulk Onboarding</div>
+          <div class="concept-body">For 200+ residents, use the <strong>Admin Web Portal CSV import</strong>. Never use the mobile app or manual entry at scale.</div>
+        </div>
+      </div>
+      <div class="watchout-list">
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div>The <strong>Dealer Portal</strong> and the <strong>Dealer Admin View</strong> are not the same thing. The Dealer Portal is where you manage accounts. The Dealer Admin View — reached via Remote Login — is where hardware configuration actually happens.</div></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div>Never use a property manager's personal login to access configuration menus. Always use the <strong>Remote Login handshake</strong> from the Dealer Portal.</div></div>
+      </div>
+    </section>
+
+    <!-- M3 -->
+    <section class="module-section" id="mod3">
+      <div class="module-header">
+        <span class="module-tag" style="background:#0077b6">M3</span>
+        <span class="module-title-text">Hardware &amp; Installation</span>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-title">🌧️ IP65 Weather Rating</div>
+          <div class="concept-body">Requires the <strong>official MDV backbox</strong>. Third-party enclosures, sealant alone, or hoods alone do not qualify. No exceptions.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">📐 Pre-Install: Serial Number</div>
+          <div class="concept-body"><strong>Record the serial number from the back of the unit before mounting.</strong> Once wall-mounted inside the backbox, the back label is inaccessible without removing the unit.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">📐 ADA Mounting Height</div>
+          <div class="concept-body">For kiosk or pedestrian gate installs, mount at <strong>48–54 inches</strong> (standard ADA / eye-level recommendation).</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🔗 Wiegand Output</div>
+          <div class="concept-body">Wiegand D0/D1 data lines run through <strong>Port A — terminals A6–A10</strong>. Not Port B (relays), not Port D (PoE+/Ethernet).</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🚫 Port E — Micro USB</div>
+          <div class="concept-body">Port E has <strong>no function</strong> on any current VUE model. Do not connect anything to it.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🔧 Relay 2 — Common Uses</div>
+          <div class="concept-body"><strong>(1)</strong> Offline failover on integration jobs — wire to the lock so access continues if internet drops. <strong>(2)</strong> Second access point on multi-entry sites. Single-door standalone installs may leave it unused.</div>
+        </div>
+      </div>
+
+      <table class="ref-table" style="margin-top:1rem">
+        <thead><tr><th>Spec</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Cat5 max run (PoE+)</td><td><strong>40 linear feet</strong></td></tr>
+          <tr><td>Cat6 max run (PoE+)</td><td><strong>200 linear feet</strong></td></tr>
+          <tr><td>PoE standard required</td><td><strong>PoE+ Type 2</strong> — standard PoE (Type 1) is not sufficient</td></tr>
+          <tr><td>12V DC, panel only</td><td>Minimum <strong>3A</strong> supply, 16 AWG wire</td></tr>
+          <tr><td>12V DC, panel + lock via A1</td><td>Minimum <strong>5A</strong> supply</td></tr>
+          <tr><td>Lock power via A1 on PoE+</td><td><span class="badge badge-red">Not Allowed</span> — must switch to 12V DC 5A</td></tr>
+        </tbody>
+      </table>
+
+      <div class="watchout-list">
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>Cat5 is limited to 40ft under PoE+</strong> — not 100ft, not "under 100 feet." Thinner conductors cause voltage drop that results in video stuttering even on runs that seem short by standard Ethernet specs.</div></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>Never power a lock from A1 when the panel is on PoE+.</strong> Lock power via A1 requires 12V DC with a minimum 5A supply.</div></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>Port E does nothing.</strong> Connecting anything to it can cause unexpected behavior.</div></div>
+      </div>
+    </section>
+
+    <!-- M4 -->
+    <section class="module-section" id="mod4">
+      <div class="module-header">
+        <span class="module-tag" style="background:#0096c7">M4</span>
+        <span class="module-title-text">System Configuration &amp; Setup</span>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-title">🏗️ Setup Hierarchy</div>
+          <div class="concept-body">Always in this order: <strong>Account → Site → Device → User.</strong> Nothing can be created before the layer above it exists.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🌍 Time Zone</div>
+          <div class="concept-body">Set during <strong>Site creation</strong>. Wrong time zone = de-synchronized access schedules and inaccurate audit log timestamps.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🔑 License Key</div>
+          <div class="concept-body">One-time use. Permanently tied to the panel's physical <strong>serial number</strong>. If the panel is replaced, MDV Admin resets the key — all data auto-reloads from the cloud on first boot.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🔧 Device Bonding</div>
+          <div class="concept-body">Enter the physical serial number in the Dealer Admin Portal. Assign a <strong>custom device name</strong> (e.g., "Main Lobby") at bonding — essential for multi-panel sites.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">⏱️ Relay Configuration</div>
+          <div class="concept-body">Set relay state (Normally Open or Normally Closed), unlock duration <strong>1–99 seconds</strong>, and a descriptive name per relay. Configured in Dealer Admin View.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">👤 User Provisioning</div>
+          <div class="concept-body">Assign users to specific devices. Configure credentials: PIN, RFID fob, or unique QR link (requires mandatory geo-fencing).</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🔍 Click to Ping / Reboot</div>
+          <div class="concept-body"><strong>Ping:</strong> verify cloud connectivity after bonding — always the first post-install check.<br><strong>Reboot:</strong> remote power cycle via cloud. Use before rolling a truck.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">📍 Site Level vs. Device Level</div>
+          <div class="concept-body"><strong>Site Level:</strong> Site Name, Company Name, Office Number.<br><strong>Device Level:</strong> Time Zone, Relay Duration, Screen Layout, all toggles.</div>
+        </div>
+      </div>
+      <div class="watchout-list">
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>Relay state must match the lock hardware type.</strong> Setting Normally Closed on a fail-secure electric strike will hold the door permanently locked until corrected.</div></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>A property with 3 entry points = 1 Site, 3 Devices.</strong> Never create one Site per door. Sites represent the property; Devices represent individual panels at that property.</div></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>Residents must be assigned to a specific device</strong> — not just the Site. A resident can exist in the portal but be unlinked from a panel, causing calls to fail even when their name appears in the directory.</div></div>
+      </div>
+    </section>
+
+    <!-- M5 -->
+    <section class="module-section" id="mod5">
+      <div class="module-header">
+        <span class="module-tag" style="background:#00b4d8">M5</span>
+        <span class="module-title-text">Integration Architecture</span>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-title">🔄 Cloud-to-Cloud Command Path</div>
+          <div class="concept-body"><strong>MDV App → MDV Cloud → Partner ACS Cloud → Partner Local Controller → Electric Strike.</strong> MDV handles video. The partner ACS owns credential logic and fires the relay.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🎯 Who Fires the Relay?</div>
+          <div class="concept-body">In an integrated system, the <strong>partner's local on-site controller</strong> (Brivo ACU, PDK controller, Kantech) fires the door relay — not the VUE panel.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">📊 Partner ACS = Source of Truth</div>
+          <div class="concept-body">Data flows <strong>from the ACS to MDV</strong>. Add or delete users in the partner ACS — changes sync to MDV automatically. Adding users in MDV does not sync back to the ACS.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🛡️ Relay 2 Safety Net</div>
+          <div class="concept-body">On integration jobs, wiring Relay 2 to the lock is <strong>non-negotiable</strong>. If the internet or API link drops, residents with locally-stored credentials (PIN/RFID) can still get in. The MDV app won't work offline.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">⚙️ Where Integration Is Configured</div>
+          <div class="concept-body">All integration setup — API keys, device mapping — is done in the <strong>Dealer Admin View</strong>, accessed via Remote Login from the Dealer Portal.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🔍 Integration Diagnostic Logic</div>
+          <div class="concept-body"><strong>Access Denied / no MDV log →</strong> rejected upstream in partner ACS (expired user, wrong permissions).<br><strong>Access Granted + relay click / door stays locked →</strong> physical wiring fault between relay and lock.</div>
+        </div>
+      </div>
+      <div class="watchout-list">
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>After a panel swap on an integrated site</strong>, bonding the new serial number is not enough. Integration config — API keys and device-to-door mapping — must be <strong>re-entered in the Dealer Admin View</strong> for the new device.</div></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>The MDV app requires an active cloud connection.</strong> It cannot trigger Relay 2's Safety Net when offline. Only locally-stored PIN codes and RFID fobs will work if internet is down.</div></div>
+      </div>
+    </section>
+
+    <!-- M6 -->
+    <section class="module-section" id="mod6">
+      <div class="module-header">
+        <span class="module-tag" style="background:#2aad88">M6</span>
+        <span class="module-title-text">Troubleshooting &amp; OBF Protocol</span>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-title">🔍 Diagnose Before You Drive</div>
+          <div class="concept-body">Before rolling a truck: check Online/Offline status → Click to Ping → Click to Reboot. Most issues can be resolved remotely from the Dealer Admin View.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">📡 "Online" ≠ Fully Connected</div>
+          <div class="concept-body">Online status reflects a <strong>low-bandwidth heartbeat only</strong>. Click to Ping uses a separate cloud port. A panel can show Online while Ping fails — they use different network paths.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🎥 Black Screen + Unlock Works</div>
+          <div class="concept-body">The network accepts small command packets but is <strong>blocking high-bandwidth video ports</strong>. This is a firewall issue — not a hardware defect. Do not swap the unit.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">🚫 No Field Service — Ever</div>
+          <div class="concept-body">Opening the unit for any internal inspection or repair — including checking fuses — is <strong>strictly prohibited</strong> and automatically voids the warranty.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">📞 OBF Protocol</div>
+          <div class="concept-body">Before declaring any unit an Out-of-Box Failure: <strong>contact MDV Technical Support (Ext. 103)</strong> for a troubleshooting session. Mandatory — no exceptions, no self-certification.</div>
+        </div>
+        <div class="concept-card">
+          <div class="concept-title">☁️ Panel Swap — Cloud Restore</div>
+          <div class="concept-body">After confirmed failure: MDV Admin resets the license key → new panel boots → <strong>all resident data and settings reload automatically from the cloud.</strong> No manual re-entry needed.</div>
+        </div>
+      </div>
+      <div class="watchout-list">
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>Most apparent hardware failures are actually power or cabling issues</strong> — wrong PoE standard, Cat5 over 40ft, Cat6 over 200ft, or insufficient amperage. Verify the physical install before assuming the unit is defective.</div></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>Unlock works but video is black = firewall, not hardware.</strong> Swapping the unit will not fix it. Property IT needs to whitelist MDV's video streaming ports.</div></div>
+        <div class="watchout"><span class="watchout-icon">⚠️</span><div><strong>You cannot self-certify an OBF.</strong> A logged MDV Technical Support session is a hard prerequisite — no support session, no valid OBF claim.</div></div>
+      </div>
+    </section>
+
+    <!-- QUICK REF: POWER -->
+    <section class="module-section" id="ref-power">
+      <div class="module-header">
+        <span class="module-tag" style="background:#d97706">REF</span>
+        <span class="module-title-text">Power &amp; Cabling Quick Reference</span>
+      </div>
+      <table class="ref-table">
+        <thead><tr><th>Spec</th><th>Requirement</th></tr></thead>
+        <tbody>
+          <tr><td>Cat5 max run (PoE+)</td><td><strong>40 linear feet</strong></td></tr>
+          <tr><td>Cat6 max run (PoE+)</td><td><strong>200 linear feet</strong></td></tr>
+          <tr><td>PoE standard</td><td><strong>PoE+ Type 2</strong> required — standard PoE (Type 1) not sufficient</td></tr>
+          <tr><td>12V DC, panel only</td><td>Minimum <strong>3A</strong> supply, 16 AWG wire</td></tr>
+          <tr><td>12V DC, panel + lock via A1</td><td>Minimum <strong>5A</strong> supply</td></tr>
+          <tr><td>Lock power via A1 on PoE+</td><td><span class="badge badge-red">Not Allowed</span></td></tr>
+          <tr><td>IP65 rating</td><td>Requires official MDV backbox — no exceptions</td></tr>
+          <tr><td>Port E (Micro USB)</td><td><span class="badge badge-red">No function</span> — do not connect anything</td></tr>
+          <tr><td>Wiegand output</td><td>Port A — terminals <strong>A6–A10</strong> (D0/D1 data lines)</td></tr>
+          <tr><td>Relay unlock duration</td><td><strong>1–99 seconds</strong> per relay</td></tr>
+          <tr><td>ADA mount height</td><td><strong>48–54 inches</strong></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- QUICK REF: DIAGNOSTIC -->
+    <section class="module-section" id="ref-diag">
+      <div class="module-header">
+        <span class="module-tag" style="background:#c0392b">REF</span>
+        <span class="module-title-text">Diagnostic Logic Quick Reference</span>
+      </div>
+      <table class="ref-table">
+        <thead><tr><th>Symptom</th><th>Most Likely Cause</th></tr></thead>
+        <tbody>
+          <tr><td>Panel online, Ping fails, directory blank</td><td>Property firewall blocking MDV cloud ports</td></tr>
+          <tr><td>Unlock works, video is black screen</td><td>Firewall blocking high-bandwidth video ports — not a hardware issue</td></tr>
+          <tr><td>Access Granted + relay click, door stays locked</td><td>Physical wiring fault between relay output and electric strike</td></tr>
+          <tr><td>Access Denied, no MDV log entry</td><td>Rejected upstream in partner ACS — expired user or wrong permissions</td></tr>
+          <tr><td>Online shows green, Ping returns nothing</td><td>Heartbeat port open, ping port blocked — different network paths</td></tr>
+          <tr><td>Resident in directory, no call placed</td><td>Resident not assigned to that specific device in the portal</td></tr>
+          <tr><td>Relay unlock duration too short</td><td>Duration not updated from default — set in Dealer Admin View (1–99s)</td></tr>
+          <tr><td>Integrated panel online, all access failing after swap</td><td>Integration config (API keys + device mapping) not re-entered for new serial number</td></tr>
+          <tr><td>Intermittent video drops, Cat6 install</td><td>Cable run exceeds 200ft PoE+ limit — voltage drop under load</td></tr>
+          <tr><td>Panel unstable, Cat5 run "under 100ft"</td><td>Cat5 limited to 40ft on PoE+ — run is too long regardless of standard Ethernet specs</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function updateNav() {
+  const sections = document.querySelectorAll('.module-section');
+  const links = document.querySelectorAll('.sidebar a');
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+  links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
+}
+window.addEventListener('scroll', updateNav);
+updateNav();
+</script>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
