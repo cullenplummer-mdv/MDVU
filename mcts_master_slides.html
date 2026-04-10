@@ -3205,21 +3205,21 @@ const SLIDES = [
 <div class="bottom-bar"><span>MyDoorView &middot; MCTS Certification Program</span><span>Module 04 &middot; System Configuration &amp; Setup</span></div>
 </div>`,
 `<div class="slide" id="s5"><div class="accent-bar"></div>
-<div class="ds-inner">
-<div class="ds-header"><div class="eyebrow">Step 3 &middot; Device Setup &middot; Via Remote Login</div>
-<h2>Adding the Device: <em>Core Settings &amp; Critical Fields</em></h2>
-<div class="ds-sub">Most fields are self-explanatory. Two are not &mdash; and getting them wrong causes problems you will not notice until after the install.</div></div>
-<div class="ds-scenario"><strong>The timezone mistake:</strong> A device defaults to UTC. Three weeks later: "Resident schedules stop working at random times." Credential schedules are running on the wrong clock. A 30-second check at setup prevents this callback.</div>
-<div class="ds-grid">
-<div class="ds-col"><div class="ds-col-label">Basic Identity</div>
-<div class="ds-field"><div class="ds-icon">&#127991;&#65039;</div><div class="ds-name">Display Name</div><div class="ds-desc">Use something descriptive &mdash; "Lobby Panel" not "Device 1". You will thank yourself when troubleshooting at 9pm.</div></div>
-<div class="ds-field"><div class="ds-icon">&#128223;</div><div class="ds-name">Device Type &amp; Site Assignment</div><div class="ds-desc">Select the correct VUE model and assign it to the site you just created. A device can only belong to one site.</div></div>
-</div>
-<div class="ds-col"><div class="ds-col-label">Critical &mdash; Verify Before Saving</div>
-<div class="ds-field crit"><div class="ds-icon">&#128336;</div><div class="ds-name">&#9888;&#65039; Timezone &mdash; Must Be Correct</div><div class="ds-desc">Controls when credential schedules activate and expire. Wrong timezone = schedules fire at wrong times. Confirm the property address and set this explicitly.</div></div>
-<div class="ds-field crit"><div class="ds-icon">&#128260;</div><div class="ds-name">&#9888;&#65039; Boot Frequency</div><div class="ds-desc">How often the device syncs from the cloud. Set too low and roster changes &mdash; new residents, revoked access &mdash; will not propagate in a timely manner.</div></div>
-<div class="ds-field"><div class="ds-icon">&#128187;</div><div class="ds-name">Screen Layout</div><div class="ds-desc">Portrait or Landscape. VUE-7R typically uses Portrait for wall-mount installs. Confirm with site conditions.</div></div>
-</div>
+<div class="step-left"><div class="eyebrow">Step 3 &middot; Device Setup &middot; Via Remote Login</div>
+<h2>Adding <em>the Device</em></h2>
+<div class="step-scenario"><strong>The timezone mistake:</strong> A device defaults to UTC. Three weeks later: "Resident schedules stop working at random times." Credential schedules are running on the wrong clock. A 30-second check at setup prevents this callback.</div>
+<div class="step-list">
+<div class="step-item"><div class="step-num">1</div><div><div class="step-title">Display Name &amp; Device Type</div><div class="step-desc">Use something descriptive &mdash; "Lobby Panel" not "Device 1". Select the correct VUE model. A device can only belong to one site.</div></div></div>
+<div class="step-item"><div class="step-num">2</div><div><div class="step-title">⚠️ Timezone &mdash; Must Be Correct</div><div class="step-desc">Controls when credential schedules activate and expire. Defaults to UTC. Wrong timezone = schedules fire at wrong times. Set this explicitly before saving.</div></div></div>
+<div class="step-item"><div class="step-num">3</div><div><div class="step-title">⚠️ Boot Frequency (Refresh Rate)</div><div class="step-desc">How often the device syncs from the cloud. Set too low and roster changes &mdash; new residents, revoked access &mdash; will not propagate in a timely manner.</div></div></div>
+<div class="step-item"><div class="step-num">4</div><div><div class="step-title">Screen Layout</div><div class="step-desc">Portrait or Landscape. VUE-7R typically uses Portrait for wall-mount installs. Confirm with site conditions before saving.</div></div></div>
+</div></div>
+<div class="step-right"><div class="sv">
+<div class="sv-title">Device Fields &mdash; <em>What Matters Most</em></div>
+<div class="sv-box"><div class="sv-label">Basic Identity</div><div class="sv-val">&#127991;&#65039; Display Name + Device Type</div><div class="sv-sub">Name it by location. Assign it to the site you just created.</div></div>
+<div class="sv-arrow">&darr; Then verify</div>
+<div class="sv-box"><div class="sv-label">&#9888;&#65039; Critical &mdash; Verify Before Saving</div><div class="sv-val">&#128336; Timezone &middot; &#128260; Boot Frequency</div><div class="sv-sub">These two fields cause the most post-install callbacks. Do not leave them at default.</div></div>
+<div class="sv-warn">&#9888;&#65039; <strong>Default timezone is UTC.</strong> Always set it to the property's local timezone &mdash; even if you think it looks right.</div>
 </div></div>
 <div class="bottom-bar"><span>MyDoorView &middot; MCTS Certification Program</span><span>Module 04 &middot; System Configuration &amp; Setup</span></div>
 </div>`,
