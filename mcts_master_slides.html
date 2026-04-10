@@ -169,7 +169,8 @@ body{font-family:'Inter',sans-serif;background:#1a2535;display:flex;flex-directi
 .aud-card-name{font-family:'DM Serif Display',serif;font-size:20px;color:#fff;font-weight:400}
 .aud-card-bottom{flex:1;padding:16px 20px;background:#f8fafc;display:flex;flex-direction:column;gap:12px}
 .aud-concern{font-size:14px;color:#334155;font-style:italic;line-height:1.5;border-left:3px solid #0077b6;padding-left:12px}
-.aud-your-role{display:flex;align-items:flex-start;gap:8px;margin-top:auto}
+.aud-concerns{display:flex;flex-direction:column;gap:8px;flex:1}
+.aud-your-role{display:flex;align-items:flex-start;gap:8px;margin-top:0}
 .aud-role-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#0096c7;margin-bottom:3px}
 .aud-role-text{font-size:13px;color:#475569;line-height:1.5}
 
@@ -1368,7 +1369,10 @@ const SLIDES = [
           <div class="aud-card-name">The Decision Maker</div>
         </div>
         <div class="aud-card-bottom" style="justify-content:flex-start;gap:8px;">
-          <div class="aud-concern">I just need it to work. Don't make me call you back.</div>
+          <div class="aud-concerns">
+            <div class="aud-concern">I just need it to work. Don't make me call you back.</div>
+            <div class="aud-concern">How do I add a new resident without calling the dealer every time?</div>
+          </div>
           <div class="aud-your-role">
             <div>
               <div class="aud-role-label">Your role</div>
@@ -1384,7 +1388,10 @@ const SLIDES = [
           <div class="aud-card-name">The Daily User</div>
         </div>
         <div class="aud-card-bottom" style="justify-content:flex-start;gap:8px;">
-          <div class="aud-concern">I just want my phone to open the door. Why isn't it working?</div>
+          <div class="aud-concerns">
+            <div class="aud-concern">I just want my phone to open the door. Why isn't it working?</div>
+            <div class="aud-concern">Can I give my dog walker a code without handing over my fob?</div>
+          </div>
           <div class="aud-your-role">
             <div>
               <div class="aud-role-label">Your role</div>
@@ -1400,7 +1407,10 @@ const SLIDES = [
           <div class="aud-card-name">Your Backstop</div>
         </div>
         <div class="aud-card-bottom" style="justify-content:flex-start;gap:8px;">
-          <div class="aud-concern">What's the serial number and what have you already tried?</div>
+          <div class="aud-concerns">
+            <div class="aud-concern">What's the serial number and what have you already tried?</div>
+            <div class="aud-concern">Is the device showing online in the portal right now?</div>
+          </div>
           <div class="aud-your-role">
             <div>
               <div class="aud-role-label">Your role</div>
