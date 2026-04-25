@@ -693,7 +693,7 @@
 <script>
   const SESSION_KEY = 'mdvu-auth';
 
-  // Theme + session check on page load
+  // Page load: theme + session check
   (async function() {
     const saved = localStorage.getItem('mdvu-theme');
     if (saved === 'dark') {
@@ -701,26 +701,19 @@
       document.getElementById('themeBtn').textContent = '☀️';
     }
 
-        const { data: { session } } = await sb.auth.getSession();
+    const { data: { session } } = await sb.auth.getSession();
     if (session) {
       document.getElementById('login-gate').classList.add('hidden');
-      document.getElementById('signOutBtn').style.display = '';
-      return;
-    }
-    }
-
-const { data: { session } } = await sb.auth.getSession();
-    if (session) {
-      document.getElementById('login-gate').classList.add('hidden');
-      document.getElementById('signOutBtn').style.display = '';
+      const out = document.getElementById('signOutBtn');
+      if (out) out.style.display = '';
       return;
     }
 
-    // No session: show the gate and focus email
     document.getElementById('login-gate').classList.add('show');
-    document.getElementById('login-email').focus();  })();
+    document.getElementById('login-email').focus();
+  })();
 
-  // Sign in handler
+  // Sign in
   async function attemptLogin() {
     const emailInput = document.getElementById('login-email');
     const pwInput = document.getElementById('login-pw');
@@ -766,7 +759,7 @@ const { data: { session } } = await sb.auth.getSession();
     }
   }
 
-  // Forgot password handler
+  // Forgot password
   async function handleForgotPassword(e) {
     e.preventDefault();
     const email = document.getElementById('login-email').value.trim();
@@ -790,6 +783,12 @@ const { data: { session } } = await sb.auth.getSession();
     }
   }
 
+  // Sign out
+  async function handleSignOut() {
+    await sb.auth.signOut();
+    location.reload();
+  }
+
   // Theme toggle
   function toggleTheme() {
     const html = document.documentElement;
@@ -806,41 +805,33 @@ const { data: { session } } = await sb.auth.getSession();
     }
   }
 
-  // Wire up event listeners
+  // Wire listeners
   document.getElementById('login-btn').addEventListener('click', attemptLogin);
 
   document.getElementById('login-pw').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      attemptLogin();
-    }
+    if (e.key === 'Enter') attemptLogin();
   });
 
   document.getElementById('login-email').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      document.getElementById('login-pw').focus();
-    }
+    if (e.key === 'Enter') document.getElementById('login-pw').focus();
   });
 
   document.getElementById('forgot-pw-link').addEventListener('click', handleForgotPassword);
 
   document.getElementById('themeBtn').addEventListener('click', toggleTheme);
-   // Sign out handler
-  async function handleSignOut() {
-    await sb.auth.signOut();
-    location.reload();
-  }
-  document.getElementById('signOutBtn').addEventListener('click', handleSignOut);
 
-  // Show sign-out button only when signed in
+  // Wire sign-out only if button exists (it might not yet)
+  const signOutBtn = document.getElementById('signOutBtn');
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', handleSignOut);
+  }
+
+  // Show/hide sign-out button on auth state change
   sb.auth.onAuthStateChange((event, session) => {
     const btn = document.getElementById('signOutBtn');
-    if (session) {
-      btn.style.display = '';
-    } else {
-      btn.style.display = 'none';
-    }
+    if (!btn) return;
+    btn.style.display = session ? '' : 'none';
   });
-</script>
 </script>
 
 </body>
