@@ -687,38 +687,36 @@
   </footer>
 
 <script>
- const SESSION_KEY = 'mdvu-auth';
+  const SESSION_KEY = 'mdvu-auth';
 
-  // Initialize on page load: check for existing Supabase session
+  // Theme + session check on page load
   (async function() {
-    // Theme restore (unchanged)
     const saved = localStorage.getItem('mdvu-theme');
     if (saved === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
       document.getElementById('themeBtn').textContent = '☀️';
     }
 
-    // Check Supabase session: if signed in, hide the gate
     const { data: { session } } = await sb.auth.getSession();
     if (session) {
       document.getElementById('login-gate').classList.add('hidden');
       return;
     }
 
-    // Focus email field on first load
     document.getElementById('login-email').focus();
   })();
 
+  // Sign in handler
   async function attemptLogin() {
     const emailInput = document.getElementById('login-email');
     const pwInput = document.getElementById('login-pw');
     const errorEl = document.getElementById('login-error');
     const btn = document.getElementById('login-btn');
 
-    // Reset error state
     emailInput.classList.remove('error');
     pwInput.classList.remove('error');
     errorEl.classList.remove('visible');
+    errorEl.style.color = '';
 
     const email = emailInput.value.trim();
     const password = pwInput.value;
@@ -728,7 +726,6 @@
       return;
     }
 
-    // Disable button while we wait for Supabase
     btn.disabled = true;
     const originalLabel = btn.textContent;
     btn.textContent = 'Signing in...';
@@ -744,7 +741,6 @@
         pwInput.focus();
         return;
       }
-      // Success: hide the gate
       document.getElementById('login-gate').classList.add('hidden');
     } catch (e) {
       console.error('Unexpected error during sign in:', e);
@@ -756,6 +752,7 @@
     }
   }
 
+  // Forgot password handler
   async function handleForgotPassword(e) {
     e.preventDefault();
     const email = document.getElementById('login-email').value.trim();
@@ -777,34 +774,43 @@
       errorEl.textContent = 'Reset email sent. Check your inbox.';
       errorEl.classList.add('visible');
     }
- 
+  }
+
+  // Theme toggle
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeBtn');
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      html.removeAttribute('data-theme');
+      btn.textContent = '🌙';
+      localStorage.setItem('mdvu-theme', 'light');
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      btn.textContent = '☀️';
+      localStorage.setItem('mdvu-theme', 'dark');
+    }
+  }
+
+  // Wire up event listeners
+  document.getElementById('login-btn').addEventListener('click', attemptLogin);
+
+  document.getElementById('login-pw').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      attemptLogin();
+    }
+  });
+
   document.getElementById('login-email').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
       document.getElementById('login-pw').focus();
     }
   });
+
   document.getElementById('forgot-pw-link').addEventListener('click', handleForgotPassword);
-    }
-  }
 
-  document.getElementById('login-btn').addEventListener('click', attemptLogin);
-  document.getElementById('login-pw').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      attemptLogin();
-    } else {
-      this.classList.remove('error');
-      document.getElementById('login-error').classList.remove('visible');
-    }
-  });
-
-  function toggleTheme() {
-    const html = document.documentElement;
-    const btn = document.getElementById('themeBtn');
-    const isDark = html.getAttribute('data-theme') === 'dark';
-    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    btn.textContent = isDark ? '🌙' : '☀️';
-    localStorage.setItem('mdvu-theme', isDark ? 'light' : 'dark');
-  }
+  document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+</script>
 </script>
 
 </body>
