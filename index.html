@@ -777,14 +777,7 @@
       errorEl.textContent = 'Reset email sent. Check your inbox.';
       errorEl.classList.add('visible');
     }
-  }
-
-  document.getElementById('login-btn').addEventListener('click', attemptLogin);
-  document.getElementById('login-pw').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      attemptLogin();
-    }
-  });
+ 
   document.getElementById('login-email').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
       document.getElementById('login-pw').focus();
