@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
+   /* Hide the gate by default until JS decides whether to show it */
+  #login-gate { visibility: hidden; }
+  #login-gate.show { visibility: visible; }
   :root {
     --mdv-blue: #0096c7;
     --mdv-blue-dark: #0077b6;
@@ -603,6 +606,7 @@
     <div class="topbar-right">
       <span class="tagline">Dealer Training &amp; Certification</span>
       <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
+      <button id="signOutBtn" class="theme-btn" style="margin-left:8px;display:none;" title="Sign out">Sign out</button>
     </div>
   </header>
 
@@ -697,14 +701,24 @@
       document.getElementById('themeBtn').textContent = '☀️';
     }
 
-    const { data: { session } } = await sb.auth.getSession();
+        const { data: { session } } = await sb.auth.getSession();
     if (session) {
       document.getElementById('login-gate').classList.add('hidden');
+      document.getElementById('signOutBtn').style.display = '';
+      return;
+    }
+    }
+
+const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      document.getElementById('login-gate').classList.add('hidden');
+      document.getElementById('signOutBtn').style.display = '';
       return;
     }
 
-    document.getElementById('login-email').focus();
-  })();
+    // No session: show the gate and focus email
+    document.getElementById('login-gate').classList.add('show');
+    document.getElementById('login-email').focus();  })();
 
   // Sign in handler
   async function attemptLogin() {
@@ -810,6 +824,22 @@
   document.getElementById('forgot-pw-link').addEventListener('click', handleForgotPassword);
 
   document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+   // Sign out handler
+  async function handleSignOut() {
+    await sb.auth.signOut();
+    location.reload();
+  }
+  document.getElementById('signOutBtn').addEventListener('click', handleSignOut);
+
+  // Show sign-out button only when signed in
+  sb.auth.onAuthStateChange((event, session) => {
+    const btn = document.getElementById('signOutBtn');
+    if (session) {
+      btn.style.display = '';
+    } else {
+      btn.style.display = 'none';
+    }
+  });
 </script>
 </script>
 
