@@ -52,7 +52,7 @@ RETURNS jsonb
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public, pg_temp
-AS $$
+AS $func$
 DECLARE
   v_attempt_id    uuid;
   v_cert_id       uuid;
@@ -210,7 +210,7 @@ BEGIN
     'answers_written', v_answer_count
   );
 END;
-$$;
+$func$;
 
 -- ----------------------------------------------------------------------------
 -- Permissions: only service_role calls this. Revoke from PUBLIC for safety.
