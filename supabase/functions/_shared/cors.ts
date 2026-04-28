@@ -69,3 +69,17 @@ export function corsHeaders(req: Request): Record<string, string> {
   }
   return { ...STATIC_HEADERS };
 }
+
+export function jsonResponse(
+  payload: unknown,
+  status: number,
+  req: Request,
+): Response {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: {
+      ...corsHeaders(req),
+      "Content-Type": "application/json",
+    },
+  });
+}
