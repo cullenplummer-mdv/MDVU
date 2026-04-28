@@ -28,7 +28,27 @@ const STATIC_HEADERS: Record<string, string> = {
   // cached and served to a request from a different origin.
   "Vary": "Origin",
 };
-
+/**
+ * Build a JSON Response with the appropriate CORS headers for the request.
+ *
+ * Centralizing this means every JSON response from an Edge Function gets
+ * the right origin-aware CORS headers without each call site repeating the
+ * boilerplate. The req parameter is required so we can read the Origin
+ * header and decide whether to echo it back.
+ */
+export function jsonResponse(
+  payload: unknown,
+  status: number,
+  req: Request,
+): Response {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: {
+      ...corsHeaders(req),
+      "Content-Type": "application/json",
+    },
+  });
+}
 /**
  * Build CORS headers for a response based on the incoming request's Origin.
  *
