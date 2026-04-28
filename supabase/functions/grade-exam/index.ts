@@ -147,7 +147,7 @@ serve(async (req: Request) => {
 }
 
   if (req.method !== "POST") {
-    return jsonResponse({ error: "method_not_allowed" }, 405);, req
+    return jsonResponse({ error: "method_not_allowed" }, 405), req;
   }
 
   // Parse body. We do not yet validate its shape against a schema; that is
@@ -156,7 +156,7 @@ serve(async (req: Request) => {
   try {
     body = await req.json();
   } catch {
-    return jsonResponse({ error: "invalid_json" }, 400);, req
+    return jsonResponse({ error: "invalid_json" }, 400), req;
   }
 
   // Resolve caller. Errors here are fail-closed (Decision C).
@@ -174,7 +174,7 @@ serve(async (req: Request) => {
     // 401 because every error path in resolveCaller is fundamentally an
     // authentication problem (missing/invalid JWT, or DB lookup failed and
     // we cannot trust ANY claim about who the caller is).
-    return jsonResponse({ error: "unauthorized" }, 401);, req
+    return jsonResponse({ error: "unauthorized" }, 401), req;
   }
 
   // ─── Admin path ──────────────────────────────────────────────────────────
@@ -190,7 +190,7 @@ serve(async (req: Request) => {
       // computed from `body.answers`. No exam_attempts/certificates writes.
       // TODO 1.5b.4: shape this response to match existing mcts.html UI.
       _placeholder: true,
-    }, 200);, req
+    }, 200), req;
   }
 
   // ─── Tech path ──────────────────────────────────────────────────────────
@@ -211,7 +211,7 @@ serve(async (req: Request) => {
     // TODO 1.5b.3: remove these fields; return real grading result.
     user_id: caller.user_id,
     received_keys: Object.keys((body ?? {}) as Record<string, unknown>),
-  }, 501);, req
+  }, 501), req;
 });
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
