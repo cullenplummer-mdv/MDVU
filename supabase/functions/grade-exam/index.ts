@@ -129,8 +129,8 @@ async function resolveCaller(req: Request): Promise<CallerResolution> {
     };
   }
 
-  if (adminRow?.role === "mdv_super") {
-    return { role: "admin", user_id: userId, reason: "mdv_super" };
+const isAdmin = adminRow?.role === "mdv_super" && adminRow?.status === "active";
+  return { role: "admin", user_id: userId, reason: "mdv_super" };
   }
 
   // Future: if (adminRow?.role === "dealer_admin") -> still "tech" for grading
