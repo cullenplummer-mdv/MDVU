@@ -113,9 +113,9 @@ async function resolveCaller(req: Request): Promise<CallerResolution> {
   const adminClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
-  const { data: adminRow, error: adminErr } = await adminClient
+ const { data: adminRow, error: adminErr } = await sbAdmin
     .from("admins")
-    .select("role")
+    .select("id, role, status")
     .eq("id", userId)
     .maybeSingle();
 
