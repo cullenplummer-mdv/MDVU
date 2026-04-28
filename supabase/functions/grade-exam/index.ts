@@ -28,16 +28,16 @@
 // Deploy:
 //   supabase functions deploy grade-exam --project-ref emtdcczglhkboftyktiq
 //
-// Required secrets (set once via supabase secrets set):
-//   SUPABASE_URL              (auto-injected by platform; do NOT set manually)
+// Required secrets (verified 2026-04-28 via supabase secrets list):
+//   SUPABASE_URL              (auto-injected by platform)
 //   SUPABASE_ANON_KEY         (auto-injected by platform)
-//   SUPABASE_SERVICE_ROLE_KEY (auto-injected by platform IF you set it via
-//                              supabase secrets set; required for admin lookup)
-// Verify with: supabase secrets list --project-ref emtdcczglhkboftyktiq
+//   SUPABASE_SERVICE_ROLE_KEY (auto-injected by platform; required for admin lookup)
+//   SUPABASE_JWKS             (auto-injected by platform)
+//   SUPABASE_DB_URL           (auto-injected by platform)
 //
-// IMPORTANT: SUPABASE_SERVICE_ROLE_KEY is auto-populated for Edge Functions
-// in modern Supabase projects, but verify on first deploy. If missing, set
-// with: supabase secrets set SUPABASE_SERVICE_ROLE_KEY=<key> --project-ref ...
+// CORS: origin-aware allowlist in _shared/cors.ts. Allowed origins are
+// https://mdv-university.vercel.app (prod) and
+// https://mdv-university-staging.vercel.app (staging).
 
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
@@ -142,9 +142,9 @@ async function resolveCaller(req: Request): Promise<CallerResolution> {
 
 serve(async (req: Request) => {
   // CORS preflight
- if (req.method === "OPTIONS") {
-  return new Response("ok", { headers: corsHeaders(req) });
-}
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders(req) });
+  }
 
   if (req.method !== "POST") {
     return jsonResponse({ error: "method_not_allowed" }, 405, req);
